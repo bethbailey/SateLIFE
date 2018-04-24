@@ -26,21 +26,21 @@ var y_2000 = LSTimageCollection.filterDate('2000-01-01', '2000-12-31').median();
 
 
 // add layers
-Map.addLayer(LST_2014, visParams, 'LST2014');
-Map.addLayer(LST_2013, visParams, 'LST2013');
-Map.addLayer(LST_2012, visParams, 'LST2012');
-Map.addLayer(LST_2011, visParams, 'LST2011');
-Map.addLayer(LST_2010, visParams, 'LST2010');
-Map.addLayer(LST_2009, visParams, 'LST2009');
-Map.addLayer(LST_2008, visParams, 'LST2008');
-Map.addLayer(LST_2007, visParams, 'LST2007');
-Map.addLayer(LST_2006, visParams, 'LST2006');
-Map.addLayer(LST_2005, visParams, 'LST2005');
-Map.addLayer(LST_2004, visParams, 'LST2004');
-Map.addLayer(LST_2003, visParams, 'LST2003');
-Map.addLayer(LST_2002, visParams, 'LST2002');
-Map.addLayer(LST_2001, visParams, 'LST2001');
-Map.addLayer(LST_2000, visParams, 'LST2000');
+Map.addLayer(LST_2014, LSTvisParams, 'LST2014');
+Map.addLayer(LST_2013, LSTvisParams, 'LST2013');
+Map.addLayer(LST_2012, LSTvisParams, 'LST2012');
+Map.addLayer(LST_2011, LSTvisParams, 'LST2011');
+Map.addLayer(LST_2010, LSTvisParams, 'LST2010');
+Map.addLayer(LST_2009, LSTvisParams, 'LST2009');
+Map.addLayer(LST_2008, LSTvisParams, 'LST2008');
+Map.addLayer(LST_2007, LSTvisParams, 'LST2007');
+Map.addLayer(LST_2006, LSTvisParams, 'LST2006');
+Map.addLayer(LST_2005, LSTvisParams, 'LST2005');
+Map.addLayer(LST_2004, LSTvisParams, 'LST2004');
+Map.addLayer(LST_2003, LSTvisParams, 'LST2003');
+Map.addLayer(LST_2002, LSTvisParams, 'LST2002');
+Map.addLayer(LST_2001, LSTvisParams, 'LST2001');
+Map.addLayer(LST_2000, LSTvisParams, 'LST2000');
 
 // EXAMPLE EXPORT CODE
 
