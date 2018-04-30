@@ -1,4 +1,3 @@
-
 // MODIS LST IMAGE COLLECTION CODE (Jo)
 
 // loading in image collection
@@ -6,12 +5,16 @@ var LSTimageCollection = ee.ImageCollection("MODIS/006/MOD11A2");
 // var ls8Collection = ee.ImageCollection("LANDSAT/LC08/C01/T1");
 var ls7Collection = ee.ImageCollection("LANDSAT/LE07/C01/T1");
 var DMSPNLCollection = ee.ImageCollection("NOAA/DMSP-OLS/NIGHTTIME_LIGHTS");
+//lpwarner
+var ndvi = ee.ImageCollection("LANDSAT/LE7_L1T_ANNUAL_NDVI");
 
 // define visualization parameters
 var LSTvisParams = {bands: ['LST_Day_1km'], min:14950, max:15500};
 var ls7Params = {bands: ['B3', 'B2', 'B1'], max: 128};
 var ls8Params = {bands: ['B4', 'B3', 'B2'], max: 128};
 var DMSPNLParams = {bands: ['avg_lights_x_pct'], min:0, max:70};
+//lpwarner
+var ndvivisParams = {bands: ['NDVI'], min: -1, max: 1};
 
 // temporal filtering
 var LST_2013 = LSTimageCollection.filterDate('2013-01-01', '2013-12-31').median();
@@ -61,6 +64,24 @@ var landsat_2002 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDat
 var landsat_2001 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2001-01-01', '2001-12-31'));
 var landsat_2000 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2000-01-01', '2000-12-31'));
 
+//lpwarner
+//already annual composite index so each one is just one image.
+var ndvi_2013 = ndvi.filterDate('2013-01-01', '2013-12-31');
+var ndvi_2012 = ndvi.filterDate('2012-01-01', '2012-12-31');
+var ndvi_2011 = ndvi.filterDate('2011-01-01', '2011-12-31');
+var ndvi_2010 = ndvi.filterDate('2010-01-01', '2010-12-31');
+var ndvi_2009 = ndvi.filterDate('2009-01-01', '2009-12-31');
+var ndvi_2008 = ndvi.filterDate('2008-01-01', '2008-12-31');
+var ndvi_2007 = ndvi.filterDate('2007-01-01', '2007-12-31');
+var ndvi_2006 = ndvi.filterDate('2006-01-01', '2006-12-31');
+var ndvi_2005 = ndvi.filterDate('2005-01-01', '2005-12-31');
+var ndvi_2004 = ndvi.filterDate('2004-01-01', '2004-12-31');
+var ndvi_2003 = ndvi.filterDate('2003-01-01', '2003-12-31');
+var ndvi_2002 = ndvi.filterDate('2002-01-01', '2002-12-31');
+var ndvi_2001 = ndvi.filterDate('2001-01-01', '2001-12-31');
+var ndvi_2000 = ndvi.filterDate('2000-01-01', '2000-12-31');
+
+
 // add layers
 Map.addLayer(DMSPNL_2013, DMSPNLParams, 'DMSPNL2013');
 Map.addLayer(DMSPNL_2012, DMSPNLParams, 'DMSPNL2012');
@@ -107,8 +128,25 @@ Map.addLayer(landsat_2002, ls7Params, '2002');
 Map.addLayer(landsat_2001, ls7Params, '2001');
 Map.addLayer(landsat_2000, ls7Params, '2000');
 
+//lpwarner
+Map.addLayer(ndvi_2013, ndvivisParams, 'ndvi2013');
+Map.addLayer(ndvi_2012, ndvivisParams, 'ndvi2012');
+Map.addLayer(ndvi_2011, ndvivisParams, 'ndvi2011');
+Map.addLayer(ndvi_2010, ndvivisParams, 'ndvi2010');
+Map.addLayer(ndvi_2009, ndvivisParams, 'ndvi2009');
+Map.addLayer(ndvi_2008, ndvivisParams, 'ndvi2008');
+Map.addLayer(ndvi_2007, ndvivisParams, 'ndvi2007');
+Map.addLayer(ndvi_2006, ndvivisParams, 'ndvi2006');
+Map.addLayer(ndvi_2005, ndvivisParams, 'ndvi2005');
+Map.addLayer(ndvi_2004, ndvivisParams, 'ndvi2004');
+Map.addLayer(ndvi_2003, ndvivisParams, 'ndvi2003');
+Map.addLayer(ndvi_2002, ndvivisParams, 'ndvi2002');
+Map.addLayer(ndvi_2001, ndvivisParams, 'ndvi2001');
+Map.addLayer(ndvi_2000, ndvivisParams, 'ndvi2000');
+
+
 // Merge each of our respective collections into a complete year-long collection
-var complete_2013 = ee.ImageCollection.fromImages([LST_2013, landsat_2013, DMSPNL_2013])
+var complete_2013 = ee.ImageCollection.fromImages([LST_2013, landsat_2013, DMSPNL_2013, ndvi_2013])
 
 
 // Export to google drive
