@@ -1,0 +1,4 @@
+instructions for gcloud shell script:
+** NEED TO RUN WITHIN LINUX ENVIRONMENT **
+
+1. 
