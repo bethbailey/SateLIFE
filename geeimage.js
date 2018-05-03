@@ -145,23 +145,411 @@ Map.addLayer(ndvi_2001, ndvivisParams, 'ndvi2001');
 Map.addLayer(ndvi_2000, ndvivisParams, 'ndvi2000');
 
 
-// Merge each of our respective collections into a complete year-long collection
-var complete_2013 = ee.ImageCollection.fromImages([LST_2013, landsat_2013, DMSPNL_2013, ndvi_2013])
-
-
 // Export to google drive
-// NOTE: not our final geometry, just a small example region for testing
-var export_geometry = ee.Geometry.Rectangle([15.24156, -4.34307, 15.28258, -4.32108]);
+// NOTE: we can change this rectangle easily, this is quite large
+var export_geometry = ee.Geometry.Rectangle([14.886474609375, -4.96235131753212, 16.2432861328125, -3.6422587707313987]);
 
+
+// Exporting the Landsat imagery
 Export.image.toDrive({
-  image: complete_2013,
-  description: 'year2013',
+  image: landsat_2013,
+  description: 'landsat_2013',
   scale: 30,
   region: export_geometry
 });
 
+Export.image.toDrive({
+  image: landsat_2012,
+  description: 'landsat_2012',
+  scale: 30,
+  region: export_geometry
+});
 
+Export.image.toDrive({
+  image: landsat_2011,
+  description: 'landsat_2011',
+  scale: 30,
+  region: export_geometry
+});
 
-// EXAMPLE EXPORT CODE
+Export.image.toDrive({
+  image: landsat_2010,
+  description: 'landsat_2010',
+  scale: 30,
+  region: export_geometry
+});
 
-// Export the image, specifying scale and region.
+Export.image.toDrive({
+  image: landsat_2009,
+  description: 'landsat_2009',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: landsat_2008,
+  description: 'landsat_2008',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: landsat_2007,
+  description: 'landsat_2007',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: landsat_2006,
+  description: 'landsat_2006',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: landsat_2005,
+  description: 'landsat_2005',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: landsat_2004,
+  description: 'landsat_2004',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: landsat_2003,
+  description: 'landsat_2003',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: landsat_2002,
+  description: 'landsat_2002',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: landsat_2001,
+  description: 'landsat_2001',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: landsat_2000,
+  description: 'landsat_2000',
+  scale: 30,
+  region: export_geometry
+});
+
+//###########################
+// Export the nighlights data
+//###########################
+Export.image.toDrive({
+  image: DMSPNL_2013.select(['stable_lights']),
+  description: 'DMSPNL_2013',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2012.select(['stable_lights']),
+  description: 'DMSPNL_2012',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2011.select(['stable_lights']),
+  description: 'DMSPNL_2011',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2010.select(['stable_lights']),
+  description: 'DMSPNL_2010',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2009.select(['stable_lights']),
+  description: 'DMSPNL_2009',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2008.select(['stable_lights']),
+  description: 'DMSPNL_2008',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2007.select(['stable_lights']),
+  description: 'DMSPNL_2007',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2006.select(['stable_lights']),
+  description: 'DMSPNL_2006',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2005.select(['stable_lights']),
+  description: 'DMSPNL_2005',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2004.select(['stable_lights']),
+  description: 'DMSPNL_2004',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2003.select(['stable_lights']),
+  description: 'DMSPNL_2003',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2002.select(['stable_lights']),
+  description: 'DMSPNL_2002',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2001.select(['stable_lights']),
+  description: 'DMSPNL_2001',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: DMSPNL_2000.select(['stable_lights']),
+  description: 'DMSPNL_2000',
+  scale: 30,
+  region: export_geometry
+});
+
+//##################################
+// Exporting the temperature imagery
+//##################################
+
+Export.image.toDrive({
+  image: LST_2013,
+  description: 'LST_2013',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2012,
+  description: 'LST_2012',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2011,
+  description: 'LST_2011',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2010,
+  description: 'LST_2010',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2009,
+  description: 'LST_2009',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2008,
+  description: 'LST_2008',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2007,
+  description: 'LST_2007',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2006,
+  description: 'LST_2006',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2005,
+  description: 'LST_2005',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2004,
+  description: 'LST_2004',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2003,
+  description: 'LST_2003',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2002,
+  description: 'LST_2002',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2001,
+  description: 'LST_2001',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: LST_2000,
+  description: 'LST_2000',
+  scale: 30,
+  region: export_geometry
+});
+
+//##################################
+// Exporting the NDSVI imdex imagery
+//##################################
+
+Export.image.toDrive({
+  image: ndvi_2013,
+  description: 'ndvi_2013',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2012,
+  description: 'ndvi_2012',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2011,
+  description: 'ndvi_2011',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2010,
+  description: 'ndvi_2010',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2009,
+  description: 'ndvi_2009',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2008,
+  description: 'ndvi_2008',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2007,
+  description: 'ndvi_2007',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2006,
+  description: 'ndvi_2006',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2005,
+  description: 'ndvi_2005',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2004,
+  description: 'ndvi_2004',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2003,
+  description: 'ndvi_2003',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2002,
+  description: 'ndvi_2002',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2001,
+  description: 'ndvi_2001',
+  scale: 30,
+  region: export_geometry
+});
+
+Export.image.toDrive({
+  image: ndvi_2000,
+  description: 'ndvi_2000',
+  scale: 30,
+  region: export_geometry
+});
