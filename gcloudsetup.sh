@@ -5,11 +5,29 @@ else
 	for i in `seq 1 $1`; do
 		echo "Initializing earth-$i..."
 		gcloud compute instances create earth-$i
-		gcloud compute scp ~/.ssh/google-cloud-cs123 earth-$i
+		gcloud compute scp ~/.ssh/google-cloud-cs123 earth-$i:~/.ssh/id_rsa --ssh-key-file=~/.ssh/google-cloud-cs123
 	done
-	
+	gcloud compute instances list --format=text \
+    | grep '^networkInterfaces\[[0-9]\+\]\.networkIP:' | sed 's/^.* //g' >> intIPs
+    
+    for i in `seq 1 $1`; do
+    	gcloud compute scp intIPs earth-$i:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
 
+    	gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123
+    	cat intIPs >> hosts
+    	rm intIPs
+    	echo "Installing dependencies on earth-$i..."
 
+    	sudo apt-get -y install mpich
+    	sudo apt-get -y install python-pip
+    	sudo apt-get -y install python-dev
+    	yes | sudo pip install mpi4py
+    	sudo apt-get -y install python3-dev
+    	sudo apt-get -y install python3-pip
+    	yes | sudo pip3 install mpi4py
+		yes | sudo pip install numpy
+		yes | sudo pip3 install numpy
+    done
 fi
 
 # TO EXTRACT INTERNAL IPs 
@@ -27,5 +45,4 @@ fi
 
 
 # TODO
-# configure gcloud with .ssh/google-cloud-cs123
-# how to transfer hosts file effectively (i.e., internal IPs)
+#
