@@ -9,15 +9,12 @@ else
 	done
 	gcloud compute instances list --format=text \
     | grep '^networkInterfaces\[[0-9]\+\]\.networkIP:' | sed 's/^.* //g' >> intIPs
-    
     for i in `seq 1 $1`; do
     	gcloud compute scp intIPs earth-$i:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
-
     	gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123
     	cat intIPs >> hosts
     	rm intIPs
     	echo "Installing dependencies on earth-$i..."
-
     	sudo apt-get -y install mpich
     	sudo apt-get -y install python-pip
     	sudo apt-get -y install python-dev
@@ -27,6 +24,15 @@ else
     	yes | sudo pip3 install mpi4py
 		yes | sudo pip install numpy
 		yes | sudo pip3 install numpy
+		logout
+		for i in `seq 1 $(($1-1))`; do
+			gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123
+			echo "SSHing from earth-$i..."
+			for j in `seq $(($i+1)) $1`; do
+				echo "...to earth-$j"
+				gcloud compute ssh earth-$j --ssh-key-file=~/google-cloud-cs123
+			done
+		done
     done
 fi
 
