@@ -26,14 +26,13 @@ else
 		yes | sudo pip3 install numpy"
 
 
-		# Below is probably wrong
+		# Below might work?
 		for i in `seq 1 $(($1-1))`; do
-			gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123
-			echo "SSHing from earth-$i..."
+			gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123 --compute-"echo 'SSHing from earth-$i...'; 
 			for j in `seq $(($i+1)) $1`; do
-				echo "...to earth-$j"
-				gcloud compute ssh earth-$j --ssh-key-file=~/google-cloud-cs123
-				gcloud compute ssh earth-$i --ssh-key-file=~/google-cloud-cs123
+				echo '...to earth-$j'
+				gcloud compute ssh earth-$j --ssh-key-file=~/google-cloud-cs123 --compute 'gcloud compute ssh earth-$i --ssh-key-file=~/google-cloud-cs123'
+				"
 			done
 		done
 	done
