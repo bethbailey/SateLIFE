@@ -66,20 +66,20 @@ var landsat_2000 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDat
 
 //lpwarner
 //already annual composite index so each one is just one image.
-var ndvi_2013 = ndvi.filterDate('2013-01-01', '2013-12-31');
-var ndvi_2012 = ndvi.filterDate('2012-01-01', '2012-12-31');
-var ndvi_2011 = ndvi.filterDate('2011-01-01', '2011-12-31');
-var ndvi_2010 = ndvi.filterDate('2010-01-01', '2010-12-31');
-var ndvi_2009 = ndvi.filterDate('2009-01-01', '2009-12-31');
-var ndvi_2008 = ndvi.filterDate('2008-01-01', '2008-12-31');
-var ndvi_2007 = ndvi.filterDate('2007-01-01', '2007-12-31');
-var ndvi_2006 = ndvi.filterDate('2006-01-01', '2006-12-31');
-var ndvi_2005 = ndvi.filterDate('2005-01-01', '2005-12-31');
-var ndvi_2004 = ndvi.filterDate('2004-01-01', '2004-12-31');
-var ndvi_2003 = ndvi.filterDate('2003-01-01', '2003-12-31');
-var ndvi_2002 = ndvi.filterDate('2002-01-01', '2002-12-31');
-var ndvi_2001 = ndvi.filterDate('2001-01-01', '2001-12-31');
-var ndvi_2000 = ndvi.filterDate('2000-01-01', '2000-12-31');
+var ndvi_2013 = ndvi.filterDate('2013-01-01', '2013-12-31').first();
+var ndvi_2012 = ndvi.filterDate('2012-01-01', '2012-12-31').first();
+var ndvi_2011 = ndvi.filterDate('2011-01-01', '2011-12-31').first();
+var ndvi_2010 = ndvi.filterDate('2010-01-01', '2010-12-31').first();
+var ndvi_2009 = ndvi.filterDate('2009-01-01', '2009-12-31').first();
+var ndvi_2008 = ndvi.filterDate('2008-01-01', '2008-12-31').first();
+var ndvi_2007 = ndvi.filterDate('2007-01-01', '2007-12-31').first();
+var ndvi_2006 = ndvi.filterDate('2006-01-01', '2006-12-31').first();
+var ndvi_2005 = ndvi.filterDate('2005-01-01', '2005-12-31').first();
+var ndvi_2004 = ndvi.filterDate('2004-01-01', '2004-12-31').first();
+var ndvi_2003 = ndvi.filterDate('2003-01-01', '2003-12-31').first();
+var ndvi_2002 = ndvi.filterDate('2002-01-01', '2002-12-31').first();
+var ndvi_2001 = ndvi.filterDate('2001-01-01', '2001-12-31').first();
+var ndvi_2000 = ndvi.filterDate('2000-01-01', '2000-12-31').first();
 
 
 // add layers
