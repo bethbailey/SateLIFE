@@ -23,16 +23,15 @@ else
 		sudo apt-get -y install python3-pip; 
 		yes | sudo pip3 install mpi4py; 
 		yes | sudo pip install numpy; 
-		yes | sudo pip3 install numpy"
-		# Below might work?
+		yes | sudo pip3 install numpy
+
 		for i in `seq 1 $(($1-1))`; do
-			gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123 --compute-"echo 'SSHing from earth-$i...'; 
+			gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123 --compute-\"echo 'SSHing from earth-$i...'; 
 			for j in `seq $(($i+1)) $1`; do
 				echo '...to earth-$j'
-				gcloud compute ssh earth-$j --ssh-key-file=~/google-cloud-cs123 --compute 'gcloud compute ssh earth-$i --ssh-key-file=~/google-cloud-cs123'
-				
-			done"
-		done
+				gcloud compute ssh earth-$j --ssh-key-file=~/google-cloud-cs123 --compute \"gcloud compute ssh earth-$i --ssh-key-file=~/google-cloud-cs123\"
+			done\"
+		done"
 	done
 fi
 
