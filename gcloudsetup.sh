@@ -25,6 +25,7 @@ else
 		yes | sudo pip install numpy; 
 		yes | sudo pip3 install numpy
 
+		### THIS DOESN'T WORK ###
 		for i in `seq 1 $(($1-1))`; do
 			gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123 --compute-\"echo 'SSHing from earth-$i...'; 
 			for j in `seq $(($i+1)) $1`; do
