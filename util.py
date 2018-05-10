@@ -3,6 +3,7 @@ import skimage.external.tifffile as tiff
 
 RAW_FILE_STRUCTURES = {
 	"landsat": ['landsat0', 'landsat1', 'landsat2', 'landsat3', 'landsat4','landsat5', 'landsat6','landsat7', 'landsat8'],
+	"lst": ['lst0'],
 	"night_lights": ['night_lights0']
 }
 
