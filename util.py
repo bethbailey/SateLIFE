@@ -7,6 +7,34 @@ RAW_FILE_STRUCTURES = {
 	"night_lights": ['night_lights0']
 }
 
+DECODE = {
+ 'Kasa-Vubu': 1,
+ 'Nsele': 2,
+ 'Kintambo': 3,
+ 'Ngaliema': 4,
+ 'Bumbu': 5,
+ 'Mont-Ngafula': 6,
+ 'Maluku': 7,
+ 'Masina': 8,
+ 'Lemba': 9,
+ 'Gombe': 10,
+ 'Selembao': 11,
+ 'Ngiri-Ngiri': 12,
+ 'Kimbanseke': 13,
+ 'Ngaba': 14,
+ 'Kinshasa': 15,
+ 'Bandalungwa': 16,
+ 'Makala': 17,
+ 'Kalamu': 18,
+ 'Matete': 19,
+ 'Ndjili': 20,
+ 'Lingwala': 21,
+ 'Kisenso': 22,
+ 'Barumbu': 23,
+ 'Limete': 24,
+
+ }
+
 class SatData():
 	"""
 	Class facilitates the flexible manipulation
@@ -14,7 +42,7 @@ class SatData():
 	numpy arry
 	""" 
 
-	def __init__(self, data, years, bands):
+	def __init__(self, data, years, bands, boundaries=None):
 		'''
 		Constructor method initializes the 3 parallel numpy arrays
 
@@ -22,11 +50,13 @@ class SatData():
 			- self.data: (3D [x_pixels x y_pixels x band_count] np array) of sat data
 			- self.years: (1D [band_count] np array) of year of sat data
 			- self.bands: (1D [band_count] np array) of band of sat data
+			- self.boundaries: (2D [x_pixels x y_pixels] np array) of geographic boundary codes
 		'''
 
 		self.data = data
 		self.years = years 
 		self.bands = bands
+		self.boundaries = boundaries
 
 
 
@@ -92,7 +122,7 @@ class SatData():
 
 
 
-def create_from_files(years, datasets):
+def create_from_files(years, datasets, include_regions=True):
 	'''
 	The raw files are stored by dataset-year. This function assembles a
 	SatData object according to the specified years and datasets.
@@ -100,6 +130,7 @@ def create_from_files(years, datasets):
 	Inputs:
 		- years: (list) of desired data years
 		- datasets: (list) of datasets from "landsat", "night_lights", "lst", "ndvi"
+		- include_regions: (boolean) whether to include a regions indicator
 
 	Returns: rv_SatData: SatData instance
 
@@ -138,6 +169,10 @@ def create_from_files(years, datasets):
 			print(rv_bands.shape)
 			assert rv_data.shape[2] == rv_bands.shape[0]
 			assert rv_bands.shape[0] == rv_years.shape[0]
+
+	if include_regions:
+		rv_boundaries = tiff.imread('data/boundaries/boundaries1.tif')
+		rv_SatData = SatData(rv_data, rv_years, rv_bands, rv_boundaries)
 
 	rv_SatData = SatData(rv_data, rv_years, rv_bands)
 
