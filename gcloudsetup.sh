@@ -3,18 +3,16 @@ if [[  $# -ne 1 || $1 -le 0 ]]; then
 	echo "Incorrect input: Supply one argument specifying the number of VM instances to initialize"
 else
 	for i in `seq 1 $1`; do
-		echo "Initializing earth-$i..."
+		echo "INITIALIZING earth-$i..."
 		gcloud compute instances create earth-$i
 		gcloud compute scp ~/.ssh/google-cloud-cs123 earth-$i:~/.ssh/id_rsa --ssh-key-file=~/.ssh/google-cloud-cs123
+		gcloud compute scp ./chain.sh earth-$i:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
 	done
 	gcloud compute instances list --format=text \
-	| grep '^networkInterfaces\[[0-9]\+\]\.networkIP:' | sed 's/^.* //g' >> intIPs
+	| grep '^networkInterfaces\[[0-9]\+\]\.networkIP:' | sed 's/^.* //g' > hosts
 	for i in `seq 1 $1`; do
-		gcloud compute scp intIPs earth-$i:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
-		gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123 --compute="cat intIPs >> hosts; 
-		cat intIPs >> hosts; 
-		rm intIPs; 
-		echo 'Installing dependencies on earth-$i...'; 
+		gcloud compute scp hosts earth-$i:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
+		gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123 --command="echo 'Installing dependencies on earth-$i...'; 
 		sudo apt-get -y install mpich; 
 		sudo apt-get -y install python-pip; 
 		sudo apt-get -y install python-dev; 
@@ -23,19 +21,17 @@ else
 		sudo apt-get -y install python3-pip; 
 		yes | sudo pip3 install mpi4py; 
 		yes | sudo pip install numpy; 
-		yes | sudo pip3 install numpy
-
-		### THIS DOESN'T WORK ###
-		for i in `seq 1 $(($1-1))`; do
-			gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123 --compute-\"echo 'SSHing from earth-$i...'; 
-			for j in `seq $(($i+1)) $1`; do
-				echo '...to earth-$j'
-				gcloud compute ssh earth-$j --ssh-key-file=~/google-cloud-cs123 --compute \"gcloud compute ssh earth-$i --ssh-key-file=~/google-cloud-cs123\"
-			done\"
-		done"
+		yes | sudo pip3 install numpy;
+		yes | sudo pip3 install scikit-image;
+		yes | sudo pip install scikit-image;
+		echo 'Initiating chaining from earth-$i';
+		bash ~/chain.sh";
 	done
 fi
 
+# attempt to fix above
+# use ssh tool to connect each instances?
+# need to connect via internal IPs at the end
 
 # TO DELETE VM INSTANCES
 #gcloud compute instances delete my-instance --zone us-central1-a
