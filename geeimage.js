@@ -1,12 +1,15 @@
 // MODIS LST IMAGE COLLECTION CODE (Jo)
 
 // loading in image collection
-var LSTimageCollection = ee.ImageCollection("MODIS/006/MOD11A2");
+var LSTimageCollection = ee.ImageCollection("MODIS/006/MOD11A2").select("LST_Day_1km");
 // var ls8Collection = ee.ImageCollection("LANDSAT/LC08/C01/T1");
 var ls7Collection = ee.ImageCollection("LANDSAT/LE07/C01/T1");
 var DMSPNLCollection = ee.ImageCollection("NOAA/DMSP-OLS/NIGHTTIME_LIGHTS");
 //lpwarner
 var ndvi = ee.ImageCollection("LANDSAT/LE7_L1T_ANNUAL_NDVI");
+
+// Atmosphere measure - very low resolution 
+var atmosphere = ee.ImageCollection("MODIS/006/MOD08_M3").select(['Aerosol_Optical_Depth_Land_QA_Mean_Mean_470']);
 
 // define visualization parameters
 var LSTvisParams = {bands: ['LST_Day_1km'], min:14950, max:15500};
@@ -49,37 +52,38 @@ var DMSPNL_2001 = DMSPNLCollection.filterDate('2001-01-01', '2001-12-31').median
 var DMSPNL_2000 = DMSPNLCollection.filterDate('2000-01-01', '2000-12-31').median();
 
 // create a cleaned yearlong composite and filter by year
-var landsat_2013 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2013-01-01', '2013-12-31'));
-var landsat_2012 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2012-01-01', '2012-12-31'));
-var landsat_2011 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2011-01-01', '2011-12-31'));
-var landsat_2010 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2010-01-01', '2010-12-31'));
-var landsat_2009 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2009-01-01', '2009-12-31'));
-var landsat_2008 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2008-01-01', '2008-12-31'));
-var landsat_2007 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2007-01-01', '2007-12-31'));
-var landsat_2006 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2006-01-01', '2006-12-31'));
-var landsat_2005 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2005-01-01', '2005-12-31'));
-var landsat_2004 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2004-01-01', '2004-12-31'));
-var landsat_2003 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2003-01-01', '2003-12-31'));
-var landsat_2002 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2002-01-01', '2002-12-31'));
-var landsat_2001 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2001-01-01', '2001-12-31'));
-var landsat_2000 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2000-01-01', '2000-12-31'));
+var landsat_2013 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2013-01-01', '2013-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2012 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2012-01-01', '2012-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2011 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2011-01-01', '2011-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2010 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2010-01-01', '2010-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2009 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2009-01-01', '2009-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2008 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2008-01-01', '2008-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2007 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2007-01-01', '2007-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2006 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2006-01-01', '2006-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2005 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2005-01-01', '2005-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2004 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2004-01-01', '2004-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2003 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2003-01-01', '2003-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2002 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2002-01-01', '2002-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2001 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2001-01-01', '2001-12-31')).select(['B3', 'B2', 'B1']);
+var landsat_2000 = ee.Algorithms.Landsat.simpleComposite(ls7Collection.filterDate('2000-01-01', '2000-12-31')).select(['B3', 'B2', 'B1']);
 
 //lpwarner
-//already annual composite index so each one is just one image.
-var ndvi_2013 = ndvi.filterDate('2013-01-01', '2013-12-31').first();
-var ndvi_2012 = ndvi.filterDate('2012-01-01', '2012-12-31').first();
-var ndvi_2011 = ndvi.filterDate('2011-01-01', '2011-12-31').first();
-var ndvi_2010 = ndvi.filterDate('2010-01-01', '2010-12-31').first();
-var ndvi_2009 = ndvi.filterDate('2009-01-01', '2009-12-31').first();
-var ndvi_2008 = ndvi.filterDate('2008-01-01', '2008-12-31').first();
-var ndvi_2007 = ndvi.filterDate('2007-01-01', '2007-12-31').first();
-var ndvi_2006 = ndvi.filterDate('2006-01-01', '2006-12-31').first();
-var ndvi_2005 = ndvi.filterDate('2005-01-01', '2005-12-31').first();
-var ndvi_2004 = ndvi.filterDate('2004-01-01', '2004-12-31').first();
-var ndvi_2003 = ndvi.filterDate('2003-01-01', '2003-12-31').first();
-var ndvi_2002 = ndvi.filterDate('2002-01-01', '2002-12-31').first();
-var ndvi_2001 = ndvi.filterDate('2001-01-01', '2001-12-31').first();
-var ndvi_2000 = ndvi.filterDate('2000-01-01', '2000-12-31').first();
+//EDIT: CooperNederhood => just fetch the image directly
+var ndvi_2013 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2013");
+var ndvi_2012 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2012");
+var ndvi_2011 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2011");
+var ndvi_2010 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2010");
+var ndvi_2009 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2009");
+var ndvi_2008 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2008");
+var ndvi_2007 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2007");
+var ndvi_2006 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2006");
+var ndvi_2005 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2005");
+var ndvi_2004 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2004");
+var ndvi_2003 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2003");
+var ndvi_2002 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2002");
+var ndvi_2001 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2001");
+var ndvi_2000 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2000");
+
 
 
 // add layers
@@ -252,7 +256,7 @@ Export.image.toDrive({
 //###########################
 // Export the nighlights data
 //###########################
-Export.image.toDrive({
+/*Export.image.toDrive({
   image: DMSPNL_2013.select(['stable_lights']),
   description: 'DMSPNL_2013',
   scale: 30,
@@ -349,7 +353,7 @@ Export.image.toDrive({
   scale: 30,
   region: export_geometry
 });
-
+*/
 //##################################
 // Exporting the temperature imagery
 //##################################

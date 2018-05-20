@@ -79,7 +79,8 @@ class SatData():
 			select_years = [select_years]
 		year_bool = np.isin(self.years, select_years)
 
-		return SatData(self.data[:, :, year_bool], self.years[year_bool], self.bands[year_bool])
+		return SatData(self.data[:, :, year_bool], self.years[year_bool], 
+			self.bands[year_bool], self.boundaries)
 
 	def select_band(self, select_bands):
 		'''
@@ -90,7 +91,8 @@ class SatData():
 			select_bands = [select_bands]
 		band_bool = np.isin(self.bands, select_bands)
 
-		return SatData(self.data[:,:, band_bool], self.years[band_bool], self.bands[band_bool])
+		return SatData(self.data[:,:, band_bool], self.years[band_bool], 
+			self.bands[band_bool], self.boundaries)
 
 	def reduce_by(self, operation, keepdims=True):
 		'''
@@ -171,7 +173,7 @@ def create_from_files(years, datasets, include_regions=True):
 			assert rv_bands.shape[0] == rv_years.shape[0]
 
 	if include_regions:
-		rv_boundaries = tiff.imread('data/boundaries/boundaries1.tif')
+		rv_boundaries = tiff.imread('data/boundaries/final_boundaries.tif')
 		rv_SatData = SatData(rv_data, rv_years, rv_bands, rv_boundaries)
 
 	rv_SatData = SatData(rv_data, rv_years, rv_bands)
