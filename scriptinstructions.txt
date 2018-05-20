@@ -1,0 +1,19 @@
+instructions for gcloud shell script:
+** NEED TO RUN WITHIN LINUX ENVIRONMENT **
+
+1. intialize a certain number of VM instances
+2. `sudo apt-get install mpich`
+3. for each machine:
+    - for each internal-ip:
+        + `echo internal-ip >> hosts`
+    -   ```sudo apt-get install python-pip
+        sudo apt-get install python-dev
+        sudo pip install mpi4py
+        sudo apt-get install python3-dev
+        sudo apt-get install python3-pip
+        sudo pip3 install mpi4py
+        sudo pip install numpy
+        sudo pip3 install numpy```
+4. on home VM:
+    - for each external-ip:
+        + `scp -i .ssh/google-cloud-cs123 .ssh/google-cloud-cs123 username@external-IP:~/.ssh/id_rsa`

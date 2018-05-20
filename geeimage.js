@@ -85,6 +85,7 @@ var ndvi_2001 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2001");
 var ndvi_2000 = ee.Image("LANDSAT/LE7_L1T_ANNUAL_NDVI/2000");
 
 
+
 // add layers
 Map.addLayer(DMSPNL_2013, DMSPNLParams, 'DMSPNL2013');
 Map.addLayer(DMSPNL_2012, DMSPNLParams, 'DMSPNL2012');
