@@ -13,6 +13,7 @@ else
 		gcloud compute scp ~/.ssh/google-cloud-cs123 earth-$i:~/.ssh/id_rsa --ssh-key-file=~/.ssh/google-cloud-cs123
 		gcloud compute scp hosts earth-$i:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
 		gcloud compute ssh earth-$i --ssh-key-file=~/.ssh/google-cloud-cs123 --command="echo 'Installing dependencies on earth-$i...'; 
+		sudo apt-get -y install git-core;
 		sudo apt-get -y install mpich; 
 		sudo apt-get -y install python-pip; 
 		sudo apt-get -y install python-dev; 
