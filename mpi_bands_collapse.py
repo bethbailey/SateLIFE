@@ -5,6 +5,7 @@
 from mpi4py import MPI
 import numpy as np
 import skimage.external.tifffile as tiff
+# import util.py
 
 comm = MPI.COMM_WORLD
 rank, size = comm.Get_rank(), comm.Get_size()
@@ -15,6 +16,8 @@ if rank == 0:
     # data = np.array([[[1,2,3,4],[2,2,3,4],[1,2,3,4]], [[0,2,3,4],[1,2,3,4],[1,2,3,4]]])
     # data = np.array([[[3,2,3,4],[1,5,3,4],[1,6,10,4]], [[1,2,3,12],[1,2,3,11],[1,2,3,4]]])
     data = tiff.imread('year2000.tif')
+    # SatData_object = util.SatData()
+    data = SatData_object.data
     array_shape = np.shape(data)
     count = array_shape[0] * array_shape[1]
     bands = array_shape[2]
