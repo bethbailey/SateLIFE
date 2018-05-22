@@ -2,9 +2,10 @@ import numpy as np
 import skimage.external.tifffile as tiff 
 
 RAW_FILE_STRUCTURES = {
-	"landsat": ['landsat0', 'landsat1', 'landsat2', 'landsat3', 'landsat4','landsat5', 'landsat6','landsat7', 'landsat8'],
+	"landsat": ['landsat0', 'landsat1', 'landsat2'],
 	"lst": ['lst0'],
-	"night_lights": ['night_lights0']
+	"night_lights": ['night_lights0'],
+	"ndvi": ['ndvi0']
 }
 
 DECODE = {
@@ -34,6 +35,9 @@ DECODE = {
  'Limete': 24,
 
  }
+
+X_SIZE = 4900
+Y_SIZE = 5036
 
 class SatData():
 	"""
@@ -140,7 +144,18 @@ def create_from_files(years, datasets, include_regions=True):
 		and 2008 Landsat imagery
 	'''
 
-	cntrl = 0
+	bands = 0
+	for data_source in datasets:
+
+		cur_band_count = len(RAW_FILE_STRUCTURES['data_source'])
+		bands += cur_band_count * len(years)
+
+	rv_data = np.empty( (X_SIZE, Y_SIZE, bands) )
+	rv_bands = np.empty( bands )
+	rv_years = np.empty( bands )
+
+
+	cur_band_height = 0
 
 	for y in years:
 		for d in datasets:
@@ -156,16 +171,21 @@ def create_from_files(years, datasets, include_regions=True):
 			new_bands = np.array( RAW_FILE_STRUCTURES[d] )
 			new_years = np.full(len(new_bands), y)
 
-			if cntrl == 0:
-				rv_data = new_data
-				rv_bands = new_bands
-				rv_years = new_years
+			h = new_data.shape[2]
+			rv_data[:, :, cur_band_count:cur_band_count+h ] = new_data
+			rv_bands[ cur_band_count:cur_band_count+h ] = new_bands
+			rv_years[ cur_band_count:cur_band_count+h ] = new_years
 
-			else:
-				rv_data = np.append(new_data, rv_data, axis=2)
-				rv_bands = np.append(new_bands, rv_bands)
-				rv_years = np.append(new_years, rv_years)
-			cntrl = 1
+			# if cntrl == 0:
+			# 	rv_data = new_data
+			# 	rv_bands = new_bands
+			# 	rv_years = new_years
+
+			# else:
+			# 	rv_data = np.append(new_data, rv_data, axis=2)
+			# 	rv_bands = np.append(new_bands, rv_bands)
+			# 	rv_years = np.append(new_years, rv_years)
+			# cntrl = 1
 
 			print(rv_data.shape)
 			print(rv_bands.shape)
