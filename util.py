@@ -147,12 +147,14 @@ def create_from_files(years, datasets, include_regions=True):
 	bands = 0
 	for data_source in datasets:
 
-		cur_band_count = len(RAW_FILE_STRUCTURES['data_source'])
+		cur_band_count = len(RAW_FILE_STRUCTURES[data_source])
 		bands += cur_band_count * len(years)
 
 	rv_data = np.empty( (X_SIZE, Y_SIZE, bands) )
-	rv_bands = np.empty( bands )
-	rv_years = np.empty( bands )
+	rv_bands = ['']*bands
+	rv_years = np.empty( bands)
+
+	print("Putting data into final shape:", rv_data.shape)
 
 
 	cur_band_height = 0
@@ -168,34 +170,44 @@ def create_from_files(years, datasets, include_regions=True):
 				new_data = new_data.reshape( (new_data.shape[0], new_data.shape[1], 1)  )
 			assert new_data.ndim == 3
 
+			h = new_data.shape[2]
+
 			new_bands = np.array( RAW_FILE_STRUCTURES[d] )
 			new_years = np.full(len(new_bands), y)
 
-			h = new_data.shape[2]
-			rv_data[:, :, cur_band_count:cur_band_count+h ] = new_data
-			rv_bands[ cur_band_count:cur_band_count+h ] = new_bands
-			rv_years[ cur_band_count:cur_band_count+h ] = new_years
-
-			# if cntrl == 0:
-			# 	rv_data = new_data
-			# 	rv_bands = new_bands
-			# 	rv_years = new_years
-
-			# else:
-			# 	rv_data = np.append(new_data, rv_data, axis=2)
-			# 	rv_bands = np.append(new_bands, rv_bands)
-			# 	rv_years = np.append(new_years, rv_years)
-			# cntrl = 1
+			print("Loading data of shape:", new_data.shape)
+			rv_data[:, :, cur_band_height:cur_band_height+h ] = new_data
+			rv_bands[ cur_band_height:cur_band_height+h ] = new_bands
+			rv_years[ cur_band_height:cur_band_height+h ] = new_years
 
 			print(rv_data.shape)
-			print(rv_bands.shape)
-			assert rv_data.shape[2] == rv_bands.shape[0]
-			assert rv_bands.shape[0] == rv_years.shape[0]
+			print(len(rv_bands))
+			assert rv_data.shape[2] == len(rv_bands)
 
+			cur_band_height += h
+
+	rv_years = np.array(rv_years)
 	if include_regions:
 		rv_boundaries = tiff.imread('data/boundaries/final_boundaries.tif')
 		rv_SatData = SatData(rv_data, rv_years, rv_bands, rv_boundaries)
 
-	rv_SatData = SatData(rv_data, rv_years, rv_bands)
+	else:
+		rv_SatData = SatData(rv_data, rv_years, rv_bands)
 
 	return rv_SatData
+
+
+def test():
+
+	y = [2001, 2010]
+	d = ['landsat', 'lst', 'ndvi', 'night_lights']
+
+	s_d = create_from_files(y, d)
+	print(s_d.years)
+	print(s_d.bands)
+	print(s_d)
+
+if __name__ == '__main__':
+
+	test()
+
