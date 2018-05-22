@@ -1,7 +1,7 @@
 from mpi4py import MPI
 import numpy as np
 import skimage.external.tifffile as tiff
-# import util.py
+import util
 
 ## LOOK AT CORRELATION
 ## By neighborhood, by region
@@ -24,13 +24,14 @@ if rank == 0:
     for index, line in enumerate(data):
         for index2, line2 in enumerate(line):
             neighborhood_dict[boundaries[index][index2]] = \
-                np.append(neighborhood_dict[boundaries[index][index2]], line2)
+                np.append(neighborhood_dict[boundaries[index][index2]], [[line2]])
     print(neighborhood_dict)
     chunks = neighborhood_dict.values()
-else:
-    chunks = None
+    print(chunks)
+# else:
+#     chunks = None
 
-chunk = comm.scatter(chunks, root=0)
+# chunk = comm.scatter(chunks, root=0)
 
 # results = []
 # for x in chunk:
