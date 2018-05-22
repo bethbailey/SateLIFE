@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="OSM Route Manager" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<!-- All data by OpenStreetMap, licensed under cc-by-sa-2.0 (http://creativecommons.org/licenses/by-sa/2.0/). -->
+	<rte>
+		<name>Kinshasa</name>
+		<src>OpenStreetMap.org</src>
+		<rtept lat="-4.3104782" lon="15.3148904" />
+		<rtept lat="-4.3129516" lon="15.3064962" />
+		<rtept lat="-4.3127857" lon="15.3064516" />
+		<rtept lat="-4.3124724" lon="15.3063674" />
+		<rtept lat="-4.3134071" lon="15.3028406" />
+		<rtept lat="-4.3186346" lon="15.3042989" />
+		<rtept lat="-4.319422" lon="15.3048997" />
+		<rtept lat="-4.3206973" lon="15.3053203" />
+		<rtept lat="-4.3230106" lon="15.3059975" />
+		<rtept lat="-4.3241635" lon="15.3059726" />
+		<rtept lat="-4.3243262" lon="15.3060155" />
+		<rtept lat="-4.3247626" lon="15.3066249" />
+		<rtept lat="-4.3289462" lon="15.3077866" />
+		<rtept lat="-4.3292816" lon="15.3079124" />
+		<rtept lat="-4.3293226" lon="15.3078848" />
+		<rtept lat="-4.3297951" lon="15.3079295" />
+		<rtept lat="-4.3326109" lon="15.3064103" />
+		<rtept lat="-4.3337771" lon="15.3064006" />
+		<rtept lat="-4.3332208" lon="15.3083103" />
+		<rtept lat="-4.3316161" lon="15.3141468" />
+		<rtept lat="-4.3315532" lon="15.3143662" />
+		<rtept lat="-4.3304284" lon="15.3142724" />
+		<rtept lat="-4.3294528" lon="15.3142553" />
+		<rtept lat="-4.3312843" lon="15.3187871" />
+		<rtept lat="-4.3315947" lon="15.3195112" />
+		<rtept lat="-4.3321724" lon="15.3208416" />
+		<rtept lat="-4.3324291" lon="15.3215604" />
+		<rtept lat="-4.330888" lon="15.3207788" />
+		<rtept lat="-4.3301032" lon="15.3204694" />
+		<rtept lat="-4.3276982" lon="15.3196454" />
+		<rtept lat="-4.3147918" lon="15.3160491" />
+		<rtept lat="-4.3104782" lon="15.3148904" />
+	</rte>
+</gpx>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="OSM Route Manager" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<!-- All data by OpenStreetMap, licensed under cc-by-sa-2.0 (http://creativecommons.org/licenses/by-sa/2.0/). -->
+	<rte>
+		<name>Kasa-Vubu</name>
+		<src>OpenStreetMap.org</src>
+		<rtept lat="-4.3499558" lon="15.3107926" />
+		<rtept lat="-4.344256" lon="15.3126808" />
+		<rtept lat="-4.3430048" lon="15.3130219" />
+		<rtept lat="-4.3420736" lon="15.313316" />
+		<rtept lat="-4.3413564" lon="15.3135231" />
+		<rtept lat="-4.3398741" lon="15.3139511" />
+		<rtept lat="-4.3382651" lon="15.3143116" />
+		<rtept lat="-4.3366047" lon="15.3146206" />
+		<rtept lat="-4.3349272" lon="15.3148266" />
+		<rtept lat="-4.3342939" lon="15.3149124" />
+		<rtept lat="-4.3335579" lon="15.3148609" />
+		<rtept lat="-4.3327106" lon="15.3146979" />
+		<rtept lat="-4.3315532" lon="15.3143662" />
+		<rtept lat="-4.3316161" lon="15.3141468" />
+		<rtept lat="-4.3332208" lon="15.3083103" />
+		<rtept lat="-4.3337771" lon="15.3064006" />
+		<rtept lat="-4.3343548" lon="15.3040402" />
+		<rtept lat="-4.3362591" lon="15.3009289" />
+		<rtept lat="-4.3361798" lon="15.2991062" />
+		<rtept lat="-4.3366762" lon="15.2972093" />
+		<rtept lat="-4.3370759" lon="15.2960501" />
+		<rtept lat="-4.3380002" lon="15.2958269" />
+		<rtept lat="-4.3404908" lon="15.2950973" />
+		<rtept lat="-4.343084" lon="15.294076" />
+		<rtept lat="-4.3481249" lon="15.2919903" />
+		<rtept lat="-4.351816" lon="15.303329" />
+		<rtept lat="-4.3527061" lon="15.3064361" />
+		<rtept lat="-4.3526975" lon="15.3073631" />
+		<rtept lat="-4.3524664" lon="15.3083158" />
+		<rtept lat="-4.3521583" lon="15.3089423" />
+		<rtept lat="-4.3515764" lon="15.3097492" />
+		<rtept lat="-4.3508061" lon="15.3104358" />
+		<rtept lat="-4.3499558" lon="15.3107926" />
+	</rte>
+</gpx>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="OSM Route Manager" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<!-- All data by OpenStreetMap, licensed under cc-by-sa-2.0 (http://creativecommons.org/licenses/by-sa/2.0/). -->
+	<rte>
+		<name>Matete</name>
+		<src>OpenStreetMap.org</src>
+		<rtept lat="-4.3791762" lon="15.3490245" />
+		<rtept lat="-4.3800346" lon="15.3495815" />
+		<rtept lat="-4.3805267" lon="15.3501072" />
+		<rtept lat="-4.3812434" lon="15.3510728" />
+		<rtept lat="-4.3818425" lon="15.3520491" />
+		<rtept lat="-4.3823238" lon="15.3530576" />
+		<rtept lat="-4.3848377" lon="15.3596022" />
+		<rtept lat="-4.3874186" lon="15.3665089" />
+		<rtept lat="-4.387975" lon="15.3662348" />
+		<rtept lat="-4.3880302" lon="15.366108" />
+		<rtept lat="-4.3880536" lon="15.3659024" />
+		<rtept lat="-4.3873106" lon="15.3646504" />
+		<rtept lat="-4.3871851" lon="15.3642732" />
+		<rtept lat="-4.387309" lon="15.3640316" />
+		<rtept lat="-4.3875147" lon="15.3637708" />
+		<rtept lat="-4.3878828" lon="15.3636465" />
+		<rtept lat="-4.3888347" lon="15.3637484" />
+		<rtept lat="-4.3899862" lon="15.3639792" />
+		<rtept lat="-4.3909276" lon="15.3638955" />
+		<rtept lat="-4.3916846" lon="15.3641874" />
+		<rtept lat="-4.3923134" lon="15.3648681" />
+		<rtept lat="-4.3926893" lon="15.36531" />
+		<rtept lat="-4.393439" lon="15.3654467" />
+		<rtept lat="-4.3936089" lon="15.365712" />
+		<rtept lat="-4.3936624" lon="15.3659123" />
+		<rtept lat="-4.3937191" lon="15.3661399" />
+		<rtept lat="-4.3937191" lon="15.3663922" />
+		<rtept lat="-4.3937191" lon="15.3667744" />
+		<rtept lat="-4.3938053" lon="15.3670241" />
+		<rtept lat="-4.3938556" lon="15.3672236" />
+		<rtept lat="-4.3939902" lon="15.3673779" />
+		<rtept lat="-4.3941939" lon="15.367446" />
+		<rtept lat="-4.3944301" lon="15.3674192" />
+		<rtept lat="-4.3950939" lon="15.3669965" />
+		<rtept lat="-4.3952409" lon="15.366883" />
+		<rtept lat="-4.3953406" lon="15.3658012" />
+		<rtept lat="-4.3964081" lon="15.3542217" />
+		<rtept lat="-4.3971783" lon="15.346969" />
+		<rtept lat="-4.3973922" lon="15.3447052" />
+		<rtept lat="-4.3969322" lon="15.3446301" />
+		<rtept lat="-4.3950709" lon="15.3363153" />
+		<rtept lat="-4.3947393" lon="15.3363046" />
+		<rtept lat="-4.3939477" lon="15.3363475" />
+		<rtept lat="-4.3930384" lon="15.3364548" />
+		<rtept lat="-4.3925464" lon="15.3368732" />
+		<rtept lat="-4.3921399" lon="15.3370663" />
+		<rtept lat="-4.3916157" lon="15.3371736" />
+		<rtept lat="-4.3914124" lon="15.3370985" />
+		<rtept lat="-4.3909631" lon="15.3373131" />
+		<rtept lat="-4.3907278" lon="15.3377851" />
+		<rtept lat="-4.3899683" lon="15.3382679" />
+		<rtept lat="-4.389412" lon="15.3384503" />
+		<rtept lat="-4.3893051" lon="15.3386327" />
+		<rtept lat="-4.3887916" lon="15.3393837" />
+		<rtept lat="-4.3878502" lon="15.3395125" />
+		<rtept lat="-4.3868874" lon="15.3400489" />
+		<rtept lat="-4.3861279" lon="15.340285" />
+		<rtept lat="-4.3858284" lon="15.3407356" />
+		<rtept lat="-4.3848228" lon="15.340757" />
+		<rtept lat="-4.3840312" lon="15.3405317" />
+		<rtept lat="-4.3837317" lon="15.340403" />
+		<rtept lat="-4.3835605" lon="15.3405854" />
+		<rtept lat="-4.3827368" lon="15.3411003" />
+		<rtept lat="-4.3820308" lon="15.341669" />
+		<rtept lat="-4.3818169" lon="15.3424093" />
+		<rtept lat="-4.3816778" lon="15.343053" />
+		<rtept lat="-4.3817099" lon="15.34345" />
+		<rtept lat="-4.3817099" lon="15.3438255" />
+		<rtept lat="-4.3815708" lon="15.3446087" />
+		<rtept lat="-4.3813034" lon="15.3453275" />
+		<rtept lat="-4.3805225" lon="15.3458747" />
+		<rtept lat="-4.3796667" lon="15.3462716" />
+		<rtept lat="-4.3791425" lon="15.3478059" />
+		<rtept lat="-4.379196" lon="15.3486105" />
+		<rtept lat="-4.3791762" lon="15.3490245" />
+	</rte>
+</gpx>

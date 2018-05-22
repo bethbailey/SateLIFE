@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="OSM Route Manager" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<!-- All data by OpenStreetMap, licensed under cc-by-sa-2.0 (http://creativecommons.org/licenses/by-sa/2.0/). -->
+	<rte>
+		<name>Ngaba</name>
+		<src>OpenStreetMap.org</src>
+		<rtept lat="-4.3734726" lon="15.3335026" />
+		<rtept lat="-4.3729226" lon="15.3313043" />
+		<rtept lat="-4.37135" lon="15.326369" />
+		<rtept lat="-4.3709649" lon="15.3251888" />
+		<rtept lat="-4.3694463" lon="15.3204053" />
+		<rtept lat="-4.3715644" lon="15.3196972" />
+		<rtept lat="-4.3745384" lon="15.3187637" />
+		<rtept lat="-4.3783574" lon="15.3176265" />
+		<rtept lat="-4.3817378" lon="15.3165751" />
+		<rtept lat="-4.3846368" lon="15.3155987" />
+		<rtept lat="-4.3853215" lon="15.31547" />
+		<rtept lat="-4.3858884" lon="15.3154378" />
+		<rtept lat="-4.3868512" lon="15.3155344" />
+		<rtept lat="-4.3872577" lon="15.3155344" />
+		<rtept lat="-4.3884665" lon="15.3153412" />
+		<rtept lat="-4.3894511" lon="15.3148067" />
+		<rtept lat="-4.389653" lon="15.3150059" />
+		<rtept lat="-4.3898884" lon="15.3151775" />
+		<rtept lat="-4.3901237" lon="15.315596" />
+		<rtept lat="-4.3903377" lon="15.3163539" />
+		<rtept lat="-4.3909261" lon="15.3185426" />
+		<rtept lat="-4.3926911" lon="15.3249584" />
+		<rtept lat="-4.391386" lon="15.3251301" />
+		<rtept lat="-4.3908405" lon="15.3247438" />
+		<rtept lat="-4.3900703" lon="15.3242288" />
+		<rtept lat="-4.3899098" lon="15.3241752" />
+		<rtept lat="-4.3877382" lon="15.3244542" />
+		<rtept lat="-4.385663" lon="15.3246902" />
+		<rtept lat="-4.3851602" lon="15.3249691" />
+		<rtept lat="-4.3847858" lon="15.3251301" />
+		<rtept lat="-4.3841974" lon="15.3253125" />
+		<rtept lat="-4.3832667" lon="15.3257738" />
+		<rtept lat="-4.3823681" lon="15.3263424" />
+		<rtept lat="-4.3815444" lon="15.3270827" />
+		<rtept lat="-4.3808491" lon="15.3276513" />
+		<rtept lat="-4.3786543" lon="15.3306926" />
+		<rtept lat="-4.3780531" lon="15.3314776" />
+		<rtept lat="-4.3777925" lon="15.3317539" />
+		<rtept lat="-4.3775661" lon="15.3318964" />
+		<rtept lat="-4.3769202" lon="15.3322617" />
+		<rtept lat="-4.3761211" lon="15.3327068" />
+		<rtept lat="-4.3754086" lon="15.3329914" />
+		<rtept lat="-4.3747278" lon="15.3331328" />
+		<rtept lat="-4.3745359" lon="15.3331564" />
+		<rtept lat="-4.3734726" lon="15.3335026" />
+	</rte>
+</gpx>
