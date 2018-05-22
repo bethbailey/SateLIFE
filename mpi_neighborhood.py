@@ -1,7 +1,7 @@
 from mpi4py import MPI
 import numpy as np
 import skimage.external.tifffile as tiff
-# import util.py
+import util
 
 ## LOOK AT CORRELATION
 ## By neighborhood, by region
@@ -11,29 +11,43 @@ rank, size = comm.Get_rank(), comm.Get_size()
 
 # Should we do a for loop over the years for this?
 if rank == 0:
-    boundaries = np.array([[210,210,112],[999,999,112],[900,900,900]])
+    boundaries = np.array([[210,210,112], [999,999,112], [900,900,900],\
+     [900,900,900], [900,900,900]])
     # print(boundaries)
     data = np.array([[[1,2,3,4],[5,6,7,8],[9,10,11,12]], \
-        [[2,3,4,5],[6,7,8,9],[10,11,12,13]], [[3,4,5,6],[7,8,9,10],[11,12,13,14]]])
+        [[2,3,4,5],[6,7,8,9],[10,11,12,13]], [[3,4,5,6],[7,8,9,10],[11,12,13,14]], \
+        [[3,4,5,6],[7,8,9,10],[11,12,13,14]], [[3,4,5,6],[7,8,9,10],[11,12,13,14]]])
     # array_shape = np.shape(data)
     # bands = array_shape[2]
-    unique, counts = np.unique(boundaries, return_counts=True)
-    neighborhood_dict = {}
-    for i in range(len(unique)):
-        neighborhood_dict[unique[i]] = np.array([])
-    for index, line in enumerate(data):
-        for index2, line2 in enumerate(line):
-            neighborhood_dict[boundaries[index][index2]] = \
-                np.append(neighborhood_dict[boundaries[index][index2]], line2)
-    print(neighborhood_dict)
-    chunks = neighborhood_dict.values()
+    # unique, counts = np.unique(boundaries, return_counts=True)
+    # neighborhood_dict = {}
+    # for i in range(len(unique)):
+    #     neighborhood_dict[unique[i]] = np.array([])
+    # for index, line in enumerate(data):
+    #     for index2, line2 in enumerate(line):
+    #         neighborhood_dict[boundaries[index][index2]] = \
+    #             np.append(neighborhood_dict[boundaries[index][index2]], [[line2]])
+    # print(neighborhood_dict)
+    # chunks = neighborhood_dict.values()
+    # print(chunks)
+    data_chunks = np.array_split(data, size)
+    boundary_chunks = np.array_split(boundaries, size)
+
 else:
-    chunks = None
+    data_chunks = None
+    boundary_chunks = None
 
-chunk = comm.scatter(chunks, root=0)
+data_chunk = comm.scatter(data_chunks, root=0)
+boundary_chunk = comm.scatter(boundary_chunks, root=0)
 
-# results = []
-# for x in chunk:
+results = []
+num = 0
+for x in data_chunk:
+	num += 1
+	print(num)
+# for y in boundary_chunk:
+# 	print(y)
+# 	print(" ")
 #     s = np.sum(x, axis=(0))
 #     results.append(s)
 
