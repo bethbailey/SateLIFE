@@ -29,6 +29,7 @@ else
 		bash ~/chain.sh";
 	done
 fi
+gcloud compute scp --recurse data earth-1:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
 gcloud compute ssh earth-1 --ssh-key-file=~/.ssh/google-cloud-cs123
 
 # TO DELETE VM INSTANCES
