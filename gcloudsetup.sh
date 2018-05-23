@@ -34,3 +34,6 @@ gcloud compute ssh earth-1 --ssh-key-file=~/.ssh/google-cloud-cs123
 
 # TO DELETE VM INSTANCES
 #gcloud compute instances delete my-instance --zone us-central1-a
+
+## initialize
+## 
