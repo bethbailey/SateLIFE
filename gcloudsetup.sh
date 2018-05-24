@@ -41,11 +41,13 @@ if [[ $location == "root" ]]; then
 	echo "Sending to root..."
 	gcloud compute scp --recurse data earth-1:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
 else
-	echo "Sending to all nodes..."
+	echo "Sending to..."
 	for i in `seq 1 $1`; do
+		echo "...node $i"
 		gcloud compute scp --recurse data earth-$i:~/. --ssh-key-file=~/.ssh/google-cloud-cs123
 	done
 fi
+
 gcloud compute ssh earth-1 --ssh-key-file=~/.ssh/google-cloud-cs123
 
 # TO DELETE VM INSTANCES
