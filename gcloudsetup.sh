@@ -53,5 +53,6 @@ fi
 #gcloud compute instances delete my-instance --zone us-central1-a
 
 ## TODOs
+## allow for 'none' sending condition
 ## customize node specifications (e.g., memory, CPU, etc.)
 ## 
