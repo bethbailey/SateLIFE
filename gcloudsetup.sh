@@ -29,7 +29,23 @@ else
 		bash ~/chain.sh";
 	done
 fi
-gcloud compute scp --recurse data earth-1:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
+
+location=""
+while [[ $location != "root" ]] && [[ $location != "all" ]]
+do
+	read -p "Specify data location ('all' or 'root') followed by [ENTER]: " location
+	echo "Enter a valid location"
+done
+
+if [[ $location == "root" ]]; then
+	echo "Sending to root..."
+	gcloud compute scp --recurse data earth-1:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
+else
+	echo "Sending to all nodes..."
+	for i in `seq 1 $1`; do
+		gcloud compute scp --recurse data earth-$i:~/. --ssh-key-file=~/.ssh/google-cloud-cs123
+	done
+fi
 gcloud compute ssh earth-1 --ssh-key-file=~/.ssh/google-cloud-cs123
 
 # TO DELETE VM INSTANCES
