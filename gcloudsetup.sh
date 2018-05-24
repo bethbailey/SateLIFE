@@ -34,25 +34,24 @@ else
 		echo 'Initiating chaining from earth-$i';
 		bash ~/chain.sh";
 	done
+	if [[ $location == "root" ]]; then
+		echo "Sending to root..."
+		gcloud compute scp --recurse data earth-1:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
+	else
+		echo "Sending to..."
+		for i in `seq 1 $1`; do
+			echo "...node $i"
+			gcloud compute scp --recurse data earth-$i:~/. --ssh-key-file=~/.ssh/google-cloud-cs123
+		done
+	fi
+	gcloud compute ssh earth-1 --ssh-key-file=~/.ssh/google-cloud-cs123
 fi
 
 
-
-if [[ $location == "root" ]]; then
-	echo "Sending to root..."
-	gcloud compute scp --recurse data earth-1:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
-else
-	echo "Sending to..."
-	for i in `seq 1 $1`; do
-		echo "...node $i"
-		gcloud compute scp --recurse data earth-$i:~/. --ssh-key-file=~/.ssh/google-cloud-cs123
-	done
-fi
-
-gcloud compute ssh earth-1 --ssh-key-file=~/.ssh/google-cloud-cs123
 
 # TO DELETE VM INSTANCES
 #gcloud compute instances delete my-instance --zone us-central1-a
 
-## initialize
+## TODOs
+## customize node specifications (e.g., memory, CPU, etc.)
 ## 
