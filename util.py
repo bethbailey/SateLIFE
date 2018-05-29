@@ -55,12 +55,14 @@ class SatData():
 			- self.years: (1D [band_count] np array) of year of sat data
 			- self.bands: (1D [band_count] np array) of band of sat data
 			- self.boundaries: (2D [x_pixels x y_pixels] np array) of geographic boundary codes
+			- self.weight: (int) before reducing region, set the weight to be the x-y pixel cunt
 		'''
 
 		self.data = data
 		self.years = years 
 		self.bands = bands
 		self.boundaries = boundaries
+		self.weight = None
 
 
 
@@ -108,6 +110,8 @@ class SatData():
 			keepdims: (boolean) does rv maintain 3-D structure of SatData types? defaults to True
 		'''
 
+		self.weight = self.data.shape[0] * self.data.shape[1] 
+
 		if operation == "mean":
 			new_data = self.data.mean(axis=(0,1), keepdims=keepdims)
 
@@ -123,8 +127,89 @@ class SatData():
 			print("Unsupported operation requested")
 			return None
 
-		return SatData(new_data, self.years, self.bands)
+		rv = SatData(new_data, self.years, self.bands, self.boundaries)
+		rv.weight = self.weight 
 
+		return rv 
+
+
+	def N_partitions(self, N):
+		'''
+		Partitions the SatData instance in N mutually exclusive and 
+		exhaustive smaller SatData instances. Returns a list which contains
+		the partitioned instances. Splits along x-y, maintains band dimension
+
+		Inputs:
+			- N (int): partitions to create
+		'''
+
+		data_partitions = np.array_split(self.data, N, axis=0)
+		sat_partitions = []
+
+		for sub_data in data_partitions:
+			sub_sat = SatData(sub_data, self.years, self.bands, self.boundaries)
+
+			sat_partitions.append(sub_sat)
+
+		return sat_partitions
+
+
+	def auto_correlation(self, K, mean_vec, std_vec):
+		'''
+		Returns a new SatData instance of
+		the K-th order autocorrelation. The calculation requires
+		mean and std deviation of each year which is input as a parameter
+
+		Inputs:
+			- K (int): autocorrelation lag level
+			- mean_vec (np array): mean of each year
+			- std_vec (np array): std dev of each year
+
+		Returns: 
+			- 
+		'''
+
+		mean_vec = np.zeros( self.data.shape[2] )
+		std_vec = np.full(self.data.shape[2], 1)
+
+		corr_data = (np.empty( self.data.shape ) - mean_vec) / std_vec
+
+
+		for i in range( self.data.shape[2] ):
+			if i - K < 0:
+				continue
+
+			corr_data[:, :, i] = corr_data[:, :, i] - corr_data[:, :, i-K]
+
+		temp_sat = SatData(corr_data, self.years, self.bands, self.boundaries)
+
+		return temp_sat.reduce_by(operation='mean', keepdims=True) 
+
+
+
+def weighted_combination(SatData_collection):
+	'''
+	Given a collection of SatData instances which have been reduced
+	to a single x-y dimension and the weight has been set, do a weighted
+	combination to form a single series
+
+	Inputs:
+		- SatData_collection (list of SatData instances): to combine
+
+	Returns:
+		- weighted (SatData): weighted calcualtion of series
+	'''
+
+	new_data = np.zeros( SatData_collection[0].data.shape )
+	weight_denom = 0
+
+	for sat_data in SatData_collection:
+		new_data = new_data + sat_data.data * sat_data.weight
+		weight_denom = weight_denom + sat_data.weight 
+
+
+	return SatData(new_data, SatData_collection[0].years, 
+		SatData_collection[0].bands, SatData_collection[0].boundaries)
 
 
 
