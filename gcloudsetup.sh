@@ -31,6 +31,8 @@ else
 		yes | sudo pip3 install numpy;
 		yes | sudo pip3 install scikit-image;
 		yes | sudo pip install scikit-image;
+		yes | sudo pip install pandas;
+		yes | sudo pip3 install pandas;
 		echo 'Initiating chaining from earth-$i';
 		bash ~/chain.sh";
 	done
