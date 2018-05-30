@@ -6,7 +6,9 @@ else
 	while [[ $location != "root" ]] && [[ $location != "all" ]]
 	do
 		read -p "Specify data location ('all' or 'root') followed by [ENTER]: " location
-		echo "Enter a valid location"
+		if [[[ $location != "root" ]] && [[ $location != "all" ]]; then
+			echo "Enter a valid location"
+		fi
 	done
 	for i in `seq 1 $1`; do
 		echo "INITIALIZING earth-$i..."
