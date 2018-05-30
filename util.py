@@ -169,17 +169,22 @@ class SatData():
 			- 
 		'''
 
+		#################################################################
+		#################################################################
+		# THIS IS STAND-IN CODE BEFORE FINAL MEAN and STD_DEV IS CALCULATED
 		mean_vec = np.zeros( self.data.shape[2] )
 		std_vec = np.full(self.data.shape[2], 1)
-
-		corr_data = (np.empty( self.data.shape ) - mean_vec) / std_vec
-
+		#################################################################
+		#################################################################
+		
+		normalized_data = (self.data - mean_vec) / std_vec
+		corr_data = np.empty(self.data.shape)
 
 		for i in range( self.data.shape[2] ):
 			if i - K < 0:
 				continue
 
-			corr_data[:, :, i] = corr_data[:, :, i] - corr_data[:, :, i-K]
+			corr_data[:, :, i] = normalized_data[:, :, i] - normalized_data[:, :, i-K]
 
 		temp_sat = SatData(corr_data, self.years, self.bands, self.boundaries)
 
