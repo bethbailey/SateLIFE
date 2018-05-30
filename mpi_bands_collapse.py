@@ -52,17 +52,17 @@ for year in years:
 
     if rank == 0:
         # Find mean, max, and min.
-        overall_zeros = np.zeros(shape=(bands))
+        overall_sums = np.zeros(shape=(bands))
         cur_max = np.zeros(shape=(bands))
         # Find first array of mins to compare future arrays to.
         cur_min = gathered_chunks[0][0][2]
         print("gathered_chunks")
         for chunk1 in gathered_chunks:
             for data in chunk1:
-                overall_zeros += data[0]
+                overall_sums += data[0]
                 np.maximum(data[1], cur_max, out=cur_max)
                 np.minimum(data[2], cur_min, out=cur_min)
-        avg = overall_zeros / count
+        avg = overall_sums / count
         mean_df.loc[year] = avg
         max_df.loc[year] = cur_max
         min_df.loc[year] = cur_min
@@ -96,7 +96,7 @@ for year in years:
     else:
         assert gathered_chunks2 is None
 
-# Save dataframes in csv.
+# Save dataframes to csv.
 mean_df.to_csv(path_or_buf="bands_collapse_data/means_by_year.csv")
 max_df.to_csv(path_or_buf="bands_collapse_data/maxs_by_year.csv")
 min_df.to_csv(path_or_buf="bands_collapse_data/mins_by_year.csv")
