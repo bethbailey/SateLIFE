@@ -154,7 +154,7 @@ class SatData():
 		return sat_partitions
 
 
-	def auto_correlation(self, K, mean_vec, std_vec):
+	def auto_correlation(self, K, mean_df, std_df):
 		'''
 		Returns a new SatData instance of
 		the K-th order autocorrelation. The calculation requires
@@ -162,18 +162,25 @@ class SatData():
 
 		Inputs:
 			- K (int): autocorrelation lag level
-			- mean_vec (np array): mean of each year
-			- std_vec (np array): std dev of each year
+			- mean_df (pandas DF): dataframe for mean of each year
+			- std_df (pandas DF): dataframe for std dev of each year
 
 		Returns: 
-			- 
+			- SatData instance with autocorrelation
 		'''
 
 		#################################################################
 		#################################################################
-		# THIS IS STAND-IN CODE BEFORE FINAL MEAN and STD_DEV IS CALCULATED
-		mean_vec = np.zeros( self.data.shape[2] )
-		std_vec = np.full(self.data.shape[2], 1)
+		mean_vec = np.empty( self.data.shape[2] )
+		std_vec = np.empty( self.data.shape[2] )
+
+		for i in range(self.data.shape[2]):
+			cur_year = self.years[i]
+			cur_band = self.bands[i]
+
+			mean_vec[i] = mean_df[mean_df.year==cur_year][cur_band].values[0]
+			std_vec[i] = std_df[std_df.year==cur_year][cur_band].values[0]
+
 		#################################################################
 		#################################################################
 		
@@ -189,6 +196,8 @@ class SatData():
 		temp_sat = SatData(corr_data, self.years, self.bands, self.boundaries)
 
 		return temp_sat.reduce_by(operation='mean', keepdims=True) 
+
+
 
 
 

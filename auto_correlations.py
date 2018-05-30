@@ -14,10 +14,10 @@ comm = MPI.COMM_WORLD
 rank, size = comm.Get_rank(), comm.Get_size()
 
 #DATA = ['ndvi', 'lst', 'night_lights']
-#YEARS = list(range(2010, 2014))
+#YEARS = list(range(2010, 2013))
 #kth_order = [1, 2, 3]
 
-DATA = ['ndvi', 'lst', 'night_lights']
+DATA = ['night_lights']
 YEARS = list(range(2009, 2013))
 kth_order = [1]
 
@@ -33,17 +33,29 @@ root = "autocorrelation/"
 for cur_data in DATA:
 	for k in kth_order:
 		if rank == 0:
+
+			df_std = pd.read_csv('bands_collapse_data/stds_by_year.csv')
+			df_std.rename(columns={'Unnamed: 0': 'year', 'night_lights': 'night_lights0', 'lst': 'lst0', 'ndvi': 'ndvi0'}, inplace=True)
+
+			df_mean = pd.read_csv('bands_collapse_data/means_by_year.csv')
+			df_mean.rename(columns={'Unnamed: 0': 'year', 'night_lights': 'night_lights0', 'lst': 'lst0', 'ndvi': 'ndvi0'}, inplace=True)
+
 			data = util.create_from_files(YEARS, [cur_data], include_regions=False)
 			chunks = data.N_partitions(size)
 
 		else:
 			chunks = None
+			df_std = None
+			df_mean = None 
+
+		df_std = comm.bcast(df_std, root=0)
+		df_mean = comm.bcast(df_mean, root=0)
 
 		chunk = comm.scatter(chunks, root=0)
 		print("Rank {} has the following SatData instance:".format(rank))
 		print(chunk)
 
-		results = chunk.auto_correlation(K=k, mean_vec="pass", std_vec="pass")
+		results = chunk.auto_correlation(K=k, mean_df=df_mean, std_df=df_std)
 		gathered_results = comm.gather(results, root=0)
 
 		if rank == 0:
