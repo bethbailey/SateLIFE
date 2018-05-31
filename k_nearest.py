@@ -7,7 +7,6 @@ import numpy as np
 import skimage.external.tifffile as tiff
 import util
 import matplotlib.pyplot as plt 
-import os 
 import pandas as pd 
 
 comm = MPI.COMM_WORLD
