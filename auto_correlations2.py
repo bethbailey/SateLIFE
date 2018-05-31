@@ -80,11 +80,13 @@ for cur_data in DATA:
             df = pd.DataFrame({"Year": weighted_result.years.astype('int'), "autocorrelation": y })
             df.to_csv('{}{} - {}.csv'.format(root, cur_data, k))
 
+            mult_k[k] = weighted_result.years.astype('int')
 
         else:
             assert gathered_results is None
 
 
-    
-    for k in mult_k:
+
+    plt.plot(mult_k[0], YEARS, 'r', mult_k[1], YEARS, 'g', mult_k[2], YEARS, 'b')
+
 
