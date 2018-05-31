@@ -6,14 +6,14 @@ from mpi4py import MPI
 import numpy as np
 import skimage.external.tifffile as tiff
 import util
-#import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt 
 import pandas as pd 
 
 comm = MPI.COMM_WORLD
 rank, size = comm.Get_rank(), comm.Get_size()
 
 DATA = ['ndvi', 'lst', 'night_lights']
-YEARS = list(range(2001, 2013))
+YEARS = list(range(2008, 2013))
 kth_order = [1, 2, 3]
 
 print("Rank is:", rank)
@@ -65,11 +65,11 @@ for cur_data in DATA:
 
 			y = weighted_result.data.reshape(weighted_result.data.size)
 
-			# plt.plot(weighted_result.years.astype('int'), y)
-			# plt.title('{} autocorrelations: k={}'.format(cur_data, k))
-			# plt.xlabel('Year')
-			# plt.ylabel('Autcorrelation')
-			# plt.savefig('{}{} - {}.png'.format(root, cur_data, k))
+			plt.plot(weighted_result.years.astype('int'), y)
+			plt.title('{} autocorrelations: k={}'.format(cur_data, k))
+			plt.xlabel('Year')
+			plt.ylabel('Autcorrelation')
+			plt.savefig('{}{} - {}.png'.format(root, cur_data, k))
 
 			df = pd.DataFrame({"Year": weighted_result.years.astype('int'), "autocorrelation": y })
 			df.to_csv('{}{} - {}.csv'.format(root, cur_data, k))
