@@ -14,7 +14,7 @@ comm = MPI.COMM_WORLD
 rank, size = comm.Get_rank(), comm.Get_size()
 
 DATA = ['ndvi', 'lst', 'night_lights']
-YEARS = list(range(2010, 2013))
+YEARS = list(range(2001, 2013))
 kth_order = [1, 2, 3]
 
 print("Rank is:", rank)
