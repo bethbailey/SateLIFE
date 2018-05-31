@@ -35,6 +35,8 @@ else
 		yes | sudo pip install scikit-image;
 		yes | sudo pip install pandas;
 		yes | sudo pip3 install pandas;
+		yes | sudo pip install matplotlib;
+		yes | sudo pip3 install matplotlib;
 		echo 'Initiating chaining from earth-$i';
 		bash ~/chain.sh";
 	done
