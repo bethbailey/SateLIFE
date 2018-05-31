@@ -3,7 +3,7 @@ if [[  $# -ne 1 || $1 -le 0 ]]; then
 	echo "Incorrect input: Supply one argument specifying the number of VM instances to initialize"
 else
 	location=""
-	while [[ $location != "root" ]] && [[ $location != "all" ]]
+	while [[ ($location != "root" && $location != "all") || $location != "none" ]]
 	do
 		read -p "Specify data location ('all' or 'root') followed by [ENTER]: " location
 		if [[[ $location != "root" ]] && [[ $location != "all" ]]; then
@@ -41,7 +41,7 @@ else
 	if [[ $location == "root" ]]; then
 		echo "Sending to root..."
 		gcloud compute scp --recurse data earth-1:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
-	else
+	elif [[ $location == "all" ]]
 		echo "Sending to..."
 		for i in `seq 1 $1`; do
 			echo "...node $i"
