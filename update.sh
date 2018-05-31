@@ -11,7 +11,7 @@ else
 		done
 	else
 		for i in `seq 1 $2`; do
-			gcloud compute scp --recurse $l earth-$i:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
+			gcloud compute scp --recurse $1 earth-$i:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
 		done
 	fi
 fi
