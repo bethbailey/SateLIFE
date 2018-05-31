@@ -7,7 +7,6 @@ import numpy as np
 import skimage.external.tifffile as tiff
 import util
 import matplotlib.pyplot as plt 
-import os 
 import pandas as pd 
 
 comm = MPI.COMM_WORLD
@@ -15,10 +14,9 @@ rank, size = comm.Get_rank(), comm.Get_size()
 
 #DATA = ['ndvi', 'lst', 'night_lights']
 #YEARS = list(range(2010, 2013))
-#kth_order = [1, 2, 3]
 
 DATA = ['ndvi']
-YEARS = [2013]
+YEARS = [2012, 2013]
 k = 400
 
 print("Rank is:", rank)
