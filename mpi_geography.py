@@ -19,7 +19,7 @@ for band in bands:
         if band == "landsat":
             data1 = SatData_object.data[:, [0,3]]
             data2 = SatData_object.data[:, [1,4]]
-            data3 = SatData_object.data[:, [2,5]] 
+            data3 = SatData_object.data[:, [2,5]]
             chunks1 = np.array_split(data1, size)
             chunks2 = np.array_split(data2, size)
             chunks3 = np.array_split(data3, size)          
@@ -36,8 +36,8 @@ for band in bands:
 
     if band == "landsat":
         chunk1 = comm.scatter(chunks1, root=0)
-        chunk2 = comm.scatter(chunks1, root=0)
-        chunk3 = comm.scatter(chunks1, root=0)
+        chunk2 = comm.scatter(chunks2, root=0)
+        chunk3 = comm.scatter(chunks3, root=0)
     else:
         chunk = comm.scatter(chunks, root=0)
 
