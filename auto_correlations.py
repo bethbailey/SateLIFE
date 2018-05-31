@@ -65,11 +65,11 @@ for cur_data in DATA:
 
 			y = weighted_result.data.reshape(weighted_result.data.size)
 
-			plt.plot(weighted_result.years.astype('int'), y)
-			plt.title('{} autocorrelations: k={}'.format(cur_data, k))
-			plt.xlabel('Year')
-			plt.ylabel('Autcorrelation')
-			plt.savefig('{}{} - {}.png'.format(root, cur_data, k))
+			# plt.plot(weighted_result.years.astype('int'), y)
+			# plt.title('{} autocorrelations: k={}'.format(cur_data, k))
+			# plt.xlabel('Year')
+			# plt.ylabel('Autcorrelation')
+			# plt.savefig('{}{} - {}.png'.format(root, cur_data, k))
 
 			df = pd.DataFrame({"Year": weighted_result.years.astype('int'), "autocorrelation": y })
 			df.to_csv('{}{} - {}.csv'.format(root, cur_data, k))
