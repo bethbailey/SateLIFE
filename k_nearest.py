@@ -15,10 +15,9 @@ rank, size = comm.Get_rank(), comm.Get_size()
 
 #DATA = ['ndvi', 'lst', 'night_lights']
 #YEARS = list(range(2010, 2013))
-#kth_order = [1, 2, 3]
 
 DATA = ['ndvi']
-YEARS = [2013]
+YEARS = [2012, 2013]
 k = 400
 
 print("Rank is:", rank)

@@ -13,13 +13,9 @@ import pandas as pd
 comm = MPI.COMM_WORLD
 rank, size = comm.Get_rank(), comm.Get_size()
 
-#DATA = ['ndvi', 'lst', 'night_lights']
-#YEARS = list(range(2010, 2013))
-#kth_order = [1, 2, 3]
-
-DATA = ['night_lights']
-YEARS = list(range(2009, 2013))
-kth_order = [1]
+DATA = ['ndvi', 'lst', 'night_lights']
+YEARS = list(range(2010, 2013))
+kth_order = [1, 2, 3]
 
 print("Rank is:", rank)
 print("Size is:", size)
