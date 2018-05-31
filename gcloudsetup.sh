@@ -6,7 +6,7 @@ else
 	while [[ ($location != "root" && $location != "all") || $location != "none" ]]
 	do
 		read -p "Specify data location ('all' or 'root') followed by [ENTER]: " location
-		if [[[ $location != "root" ]] && [[ $location != "all" ]]; then
+		if [[ $location != "root" ]] && [[ $location != "all" ]]; then
 			echo "Enter a valid location"
 		fi
 	done
