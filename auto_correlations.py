@@ -6,7 +6,7 @@ from mpi4py import MPI
 import numpy as np
 import skimage.external.tifffile as tiff
 import util
-import matplotlib.pyplot as plt 
+#import matplotlib.pyplot as plt 
 import pandas as pd 
 
 comm = MPI.COMM_WORLD
