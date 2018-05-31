@@ -3,7 +3,7 @@ if [[  $# -ne 1 || $1 -le 0 ]]; then
 	echo "Incorrect input: Supply one argument specifying the number of VM instances to initialize"
 else
 	location=""
-	while [[ ($location != "root" && $location != "all") || $location != "none" ]]
+	while [[ ($location != "root" && $location != "all") && $location != "none" ]]
 	do
 		read -p "Specify data location ('all' or 'root') followed by [ENTER]: " location
 		if [[ $location != "root" ]] && [[ $location != "all" ]]; then
