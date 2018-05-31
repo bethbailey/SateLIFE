@@ -41,7 +41,7 @@ else
 	if [[ $location == "root" ]]; then
 		echo "Sending to root..."
 		gcloud compute scp --recurse data earth-1:~/ --ssh-key-file=~/.ssh/google-cloud-cs123
-	elif [[ $location == "all" ]]
+	elif [[ $location == "all" ]]; then
 		echo "Sending to..."
 		for i in `seq 1 $1`; do
 			echo "...node $i"
