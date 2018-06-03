@@ -58,8 +58,20 @@ DATA:
 
 	Google EE has two image types: raster and feature. The images describe above are rasters and the GPS boundaries are feature types. Again, using EE we convert the GPS boundaries from feature types into raster/image types for compatibility. We also manually draw boundaries where GPS data is not available from OpenStreetMaps. The boundary analsysis is layered, with different codes denoting country differences and different areas within country. Thus, the analysis in EE yields 3 boundary tiff files which are then composited into 1 comprehensive boundary file. This occurs in the "clean_boundaries.py" script
 
-	CLASS DESIGN:
+############################################################
+CLASS DESIGN:
 
-	As described in the comments and header of the "util.py" file, the SatData class facilitates the construction and analysis of the satellite tiff image files. 
+As described in the comments and header of the "util.py" file, the SatData class facilitates the construction and analysis of the satellite tiff image files. 
 
-	
+############################################################
+ALGORITHMS: ***please add to this***
+
+	AUTOCORRELATION:
+		Autocorrelation is the correlation of a signal with a delayed copy of itself (wikipedia). In other words, it allows us to determine whether the value at a certain pixel within a band is correlated with the value in the next period (or periods). To calculate this, we normalize a each band such that it is mean zero. We then multiply each normalized pixel value in year=t with the corresponding normalized pixel avlue in year=t-k, where k is the level of autocorrelation. Our code currently tests autocorrelations of k=1,2,3 to determine how persistent any correlation is and whether the nature changes with respect to the degree. We then divide by each std deviation and take the expected value of the transformed variable, thus calculating the statistic across the entire band. See "util.py" and "auto_correlation.py" for code
+
+
+	K-NEAREST-NEIGHBORS:
+		- This recently added calculation is still a work in progress, but we present it here for its coding usefulness. Unlike our other statistics, this calculation is made not across an entire band but across a small k-near-neighborhood of a given pixel. Thus, for any given k x k neighborhood we can calculate a proxy for the spatial correlation within the neighborhood. We essentially slide this neighborhood "filter" across the band calculating with each change, resulting in a new 2D surface. This is very similar to the convolution calculations within a convolutional neural network. See "util.py" and "k_nearest.py" for code
+
+
+
