@@ -73,8 +73,8 @@ for band in bands:
             diff_array1 = gathered_chunks1[0]
             for i1 in range(len(gathered_chunks1)):
                 if i1 != 0:
-                    if gathered_chunks1[i]:
-                        diff_array1 = np.concatenate((diff_array1, gathered_chunks1[i]))
+                    if gathered_chunks1[i1]:
+                        diff_array1 = np.concatenate((diff_array1, gathered_chunks1[i1]))
             final_diff_array1 = np.reshape(diff_array1, \
                 newshape=(data1.shape[0], data1.shape[1]))
             df1 = pd.DataFrame(final_diff_array1)
@@ -83,8 +83,8 @@ for band in bands:
             diff_array2 = gathered_chunks2[0]
             for i2 in range(len(gathered_chunks2)):
                 if i2 != 0:
-                    if gathered_chunks2[i]:
-                        diff_array2 = np.concatenate((diff_array2, gathered_chunks2[i]))
+                    if gathered_chunks2[i2]:
+                        diff_array2 = np.concatenate((diff_array2, gathered_chunks2[i2]))
             final_diff_array2 = np.reshape(diff_array2, \
                 newshape=(data2.shape[0], data2.shape[1]))
             df2 = pd.DataFrame(final_diff_array2)
@@ -93,8 +93,8 @@ for band in bands:
             diff_array3 = gathered_chunks3[0]
             for i3 in range(len(gathered_chunks3)):
                 if i3 != 0:
-                    if gathered_chunks3[i]:
-                        diff_array3 = np.concatenate((diff_array3, gathered_chunks3[i]))
+                    if gathered_chunks3[i3]:
+                        diff_array3 = np.concatenate((diff_array3, gathered_chunks3[i3]))
             final_diff_array3 = np.reshape(diff_array3, \
                 newshape=(data3.shape[0], data3.shape[1]))
             df3 = pd.DataFrame(final_diff_array3)

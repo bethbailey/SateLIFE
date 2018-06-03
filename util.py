@@ -1,3 +1,20 @@
+# AUTHOR: Cooper Nederhood, all code original
+# CODE PURPOSE: 
+'''
+The image files are essentially just complex hyper-dimensional numpy tensors of different values.
+Thus, when thinking about MPI implementation, partitioning a numpy tensor results in simply more 
+numpy tensors displaying a similar structure. Thus, the SatData class design loads in the years and 
+bands specified by the user and constructs parallel numpy arrays describing each respective band in
+tensor. Methods on the class reflect operations that can be performed on a SatData tensor, including
+basic properties like min, max, mean and more complex calculations like autocorrelations and Moran's I
+
+Because of the self-similarity of the SatData class there are methods for partitioning the objects
+in preparation for MPI-scatter-->gather operations. To facilitate gathering, there are functions which
+take a list of SatData objects and aggregate them via a weighted combination of each SatData's observation
+count
+
+'''
+
 import numpy as np 
 import skimage.external.tifffile as tiff 
 
@@ -9,31 +26,37 @@ RAW_FILE_STRUCTURES = {
 }
 
 DECODE = {
- 'Kasa-Vubu': 1,
- 'Nsele': 2,
- 'Kintambo': 3,
- 'Ngaliema': 4,
- 'Bumbu': 5,
- 'Mont-Ngafula': 6,
- 'Maluku': 7,
- 'Masina': 8,
- 'Lemba': 9,
- 'Gombe': 10,
- 'Selembao': 11,
- 'Ngiri-Ngiri': 12,
- 'Kimbanseke': 13,
- 'Ngaba': 14,
- 'Kinshasa': 15,
- 'Bandalungwa': 16,
- 'Makala': 17,
- 'Kalamu': 18,
- 'Matete': 19,
- 'Ndjili': 20,
- 'Lingwala': 21,
- 'Kisenso': 22,
- 'Barumbu': 23,
- 'Limete': 24,
+ 'Congo-Kinshsa (outskirts)': 100,
+ 'Kasa-Vubu': 101,
+ 'Nsele': 102,
+ 'Kintambo': 103,
+ 'Ngaliema': 104,
+ 'Bumbu': 105,
+ 'Mont-Ngafula': 106,
+ 'Maluku': 107,
+ 'Masina': 108,
+ 'Lemba': 109,
+ 'Gombe': 110,
+ 'Selembao': 111,
+ 'Ngiri-Ngiri': 112,
+ 'Kimbanseke': 113,
+ 'Ngaba': 114,
+ 'Kinshasa': 115,
+ 'Bandalungwa': 116,
+ 'Makala': 117,
+ 'Kalamu': 118,
+ 'Matete': 119,
+ 'Ndjili': 120,
+ 'Lingwala': 121,
+ 'Kisenso': 122,
+ 'Barumbu': 123,
+ 'Limete': 124,
 
+ 'Congo-Brazzaville (outskirts)': 200,
+ 'Congo-Brazzaville (city)': 2010,
+
+ 'River': 900,
+ 'River (island)': 999
  }
 
 X_SIZE = 4900
@@ -153,6 +176,27 @@ class SatData():
 
 		return sat_partitions
 
+	def N_band_partitions(self, N):
+		'''
+		Partitions the SatData instance in N mutually exclusive and 
+		exhaustive smaller SatData instances. Returns a list which contains
+		the partitioned instances. SPLITS ALONG BAND DIMENSION
+
+		Inputs:
+			- N (int): partitions to create
+		'''
+
+		data_partitions = np.array_split(self.data, N, axis=2)
+		sat_partitions = []
+
+		for sub_data in data_partitions:
+			sub_sat = SatData(sub_data, self.years, self.bands, self.boundaries)
+
+			sat_partitions.append(sub_sat)
+
+		return sat_partitions
+
+
 
 	def auto_correlation(self, K, mean_df, std_df):
 		'''
@@ -170,7 +214,6 @@ class SatData():
 		'''
 
 		#################################################################
-		#################################################################
 		mean_vec = np.empty( self.data.shape[2] )
 		std_vec = np.empty( self.data.shape[2] )
 
@@ -181,7 +224,6 @@ class SatData():
 			mean_vec[i] = mean_df[mean_df.year==cur_year][cur_band].values[0]
 			std_vec[i] = std_df[std_df.year==cur_year][cur_band].values[0]
 
-		#################################################################
 		#################################################################
 		
 		normalized_data = (self.data - mean_vec) / std_vec
@@ -197,7 +239,96 @@ class SatData():
 
 		return temp_sat.reduce_by(operation='mean', keepdims=True) 
 
+	def k_nearest_calc(self, K, function):
+		'''
+		Applies the specified function to the K-nearest neighbors
+		over each of the bands in the SatData object. Returns a new SatData
+		object
 
+		Inputs:
+			- K (int): consider the KxK neighborhood surrounding each pixel
+			- function (function): function to apply to k-nearest neighborhoods
+
+		Returns:
+			- SatData instance with surface of the k-nearest calc for the bands
+		'''
+
+		cur_x = self.data.shape[0]
+		cur_y = self.data.shape[1]
+		band_count = self.data.shape[2]
+
+		new_x = cur_x - K + 1
+		new_y = cur_y - K + 1
+		print("x dim changes from {} to {}".format(cur_x, new_x))
+		print("y dim changes from {} to {}".format(cur_y, new_y))
+
+
+		new_data = np.full( (new_x, new_y, band_count), -100000000 )
+
+		for h in range(band_count):
+			band_mean = np.mean( self.data[:,:,h] )
+			print("Band mean: ", band_mean)
+			for i in range(K, cur_x+1):
+				print("Updating row i={}, from band h={}".format(i-K, h))
+				for j in range(K, cur_y+1):
+
+					cur_section = self.data[i-K:i, j-K:j, h].reshape( (K,K) )
+					function_calc = function(cur_section, band_mean)
+
+				
+					new_data[i-K, j-K, h] = function_calc 
+
+		rv_SatData = SatData(new_data, self.years, self.bands, self.boundaries)
+
+		return rv_SatData
+
+
+
+def calc_morans(np_array, global_mean):
+	'''
+	Given a square numpy array, calculates the Moran's I for
+	the square, a measure of spatial autocorrelation.
+
+	Inputs:
+		- np_array (np array): represents a spatial region
+
+	Returns:
+		- moran (float): captures spatial dependence
+	'''
+
+	moran_num = 0
+	moran_den = 0
+
+	data = np_array.reshape(np_array.size)
+	data = data - global_mean
+
+	for i in range(data.shape[0]):
+		moran_den += data[i]**2
+		moran_num += np.sum(data*data[i])
+		
+
+
+	return moran_num, moran_den
+
+def calc_avg_dev(np_array, global_mean):
+	'''
+	Given a square numpy array, calculates the average
+	deviation from the mean in the neighborhood. Should identify
+	regions that significantly differ from the general band average.
+
+	Inputs:
+		- np_array (np array): represents a spatial region
+
+	Returns:
+		- avg_dev (float): captures spatial deviation from average
+	
+	'''
+
+	d = np_array.reshape(np_array.size) - global_mean
+	avg_dev = np.mean(d)
+	assert not np.isnan(avg_dev)
+
+	return avg_dev 
 
 
 
@@ -224,6 +355,7 @@ def weighted_combination(SatData_collection):
 
 	return SatData(new_data, SatData_collection[0].years, 
 		SatData_collection[0].bands, SatData_collection[0].boundaries)
+
 
 
 
@@ -308,5 +440,8 @@ def test():
 
 if __name__ == '__main__':
 
-	print("test")
+	test = create_from_files([2010], ['lst'], False)
+	test.data = test.data[:, 0:4900, :]
 
+	mean = np.mean(test.data)
+	m = test.k_nearest_calc(4880, calc_avg_dev)

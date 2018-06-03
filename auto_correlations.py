@@ -1,3 +1,12 @@
+# AUTHOR: Cooper Nederhood
+# Code purpose: 
+'''
+We wanted to calculate the auto-correlation (i.e. dependence through time) for 
+each band so that we could determine how persistent quantities are through time. 
+The below code is implemented via MPI and relies heavily on the SatData class structure
+and methods as laid out in util.py
+'''
+
 # To run this on google could servers, you will have to add the below commands.
 # sudo pip install scikit-image
 # sudo pip3 install scikit-image
@@ -7,19 +16,14 @@ import numpy as np
 import skimage.external.tifffile as tiff
 import util
 import matplotlib.pyplot as plt 
-import os 
 import pandas as pd 
 
 comm = MPI.COMM_WORLD
 rank, size = comm.Get_rank(), comm.Get_size()
 
-#DATA = ['ndvi', 'lst', 'night_lights']
-#YEARS = list(range(2010, 2013))
-#kth_order = [1, 2, 3]
-
-DATA = ['night_lights']
-YEARS = list(range(2009, 2013))
-kth_order = [1]
+DATA = ['ndvi', 'lst', 'night_lights']
+YEARS = list(range(2008, 2013))
+kth_order = [1, 2, 3]
 
 print("Rank is:", rank)
 print("Size is:", size)

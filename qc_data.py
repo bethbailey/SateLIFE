@@ -1,3 +1,6 @@
+# AUTHOR: Cooper Nederhood
+# Code purpose: just a QC script to make sure all data exported properly from Google EE
+
 import numpy as np 
 import skimage.external.tifffile as tiff 
 import os
