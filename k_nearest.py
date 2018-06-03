@@ -1,3 +1,16 @@
+# AUTHOR: Cooper Nederhood
+# Code purpose: 
+'''
+We wanted to calculate quantities within small pixel neighborhoods, as laid out by the
+k-nearest-neighbors of a given pixel. Essentially, we are sliding a small filter across
+the entire image and calculating the resulting statistic, which then yields another 2-D
+map. This process is analagous to the convolutional filters used in Convolutional 
+Neural Nets and thus made a useful exercise. 
+Unfortunately, this was our last analysis to undertake and the results have not yet been finalized.
+Again, most of the heavy lifting calculations are coded within the "util.py" SatData class
+'''
+
+
 # To run this on google could servers, you will have to add the below commands.
 # sudo pip install scikit-image
 # sudo pip3 install scikit-image

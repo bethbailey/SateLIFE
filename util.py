@@ -1,3 +1,20 @@
+# AUTHOR: Cooper Nederhood, all code original
+# CODE PURPOSE: 
+'''
+The image files are essentially just complex hyper-dimensional numpy tensors of different values.
+Thus, when thinking about MPI implementation, partitioning a numpy tensor results in simply more 
+numpy tensors displaying a similar structure. Thus, the SatData class design loads in the years and 
+bands specified by the user and constructs parallel numpy arrays describing each respective band in
+tensor. Methods on the class reflect operations that can be performed on a SatData tensor, including
+basic properties like min, max, mean and more complex calculations like autocorrelations and Moran's I
+
+Because of the self-similarity of the SatData class there are methods for partitioning the objects
+in preparation for MPI-scatter-->gather operations. To facilitate gathering, there are functions which
+take a list of SatData objects and aggregate them via a weighted combination of each SatData's observation
+count
+
+'''
+
 import numpy as np 
 import skimage.external.tifffile as tiff 
 

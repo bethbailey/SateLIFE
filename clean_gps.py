@@ -3,7 +3,8 @@ import gpxpy.gpx
 import os
 import xml.etree.ElementTree
 
-''' README: 
+# AUTHOR: Cooper Nederhood, all code original
+''' CODE PURPOSE: 
     The main platform/data source of satellite imagery, Google Earth Engine, does not include geometries to designate
     neighborhoods within Kinshasa. These ARE available in OpenStreetMaps as .gpx files (an XML schema used by OpenStreetMaps).
     The below programs parse the .gpx files, create a txt file containing code compatable with Google Earth Engine, 

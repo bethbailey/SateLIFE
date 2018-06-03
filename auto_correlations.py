@@ -1,3 +1,12 @@
+# AUTHOR: Cooper Nederhood
+# Code purpose: 
+'''
+We wanted to calculate the auto-correlation (i.e. dependence through time) for 
+each band so that we could determine how persistent quantities are through time. 
+The below code is implemented via MPI and relies heavily on the SatData class structure
+and methods as laid out in util.py
+'''
+
 # To run this on google could servers, you will have to add the below commands.
 # sudo pip install scikit-image
 # sudo pip3 install scikit-image

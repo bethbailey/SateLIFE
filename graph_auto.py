@@ -1,3 +1,6 @@
+# AUTHOR: Cooper Nederhood
+# Code purpose: simple script to plot the output of the autocorrelation .csv files
+
 import matplotlib.pyplot as plt 
 import pandas as pd 
 
@@ -15,7 +18,9 @@ for b in bands:
 
 		c = color_tt[k]
 
-		plt.plot(df.Year, df.autocorrelation, color = c, label = '{} order'.format(k))
+		d = df.Year
+
+		plt.plot(d, df.autocorrelation, color = c, label = '{} order'.format(k))
 
 	plt.xlabel('Year')
 	plt.ylabel('Autocorrelation across band')

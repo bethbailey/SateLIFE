@@ -1,3 +1,8 @@
+// AUTHOR: entire team, all code original
+/* CODE PURPOSE: Google EE code which downloads all satellite images, does cleaning, and exports
+    as tiff files
+*/
+
 // MODIS LST IMAGE COLLECTION CODE (Jo)
 
 // loading in image collection

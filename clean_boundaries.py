@@ -2,7 +2,11 @@ import numpy as np
 import skimage.external.tifffile as tiff 
 import pandas as pd 
 
-# hardcoded path is temporary
+# AUTHOR: Cooper Nederhood, all code original
+# CODE PURPOSE: cleans 3 boundary tiff files into one comprehensive  boundary file
+
+
+# hardcoded path will need adjusting to specific user
 PATH = "/home/cooper/Documents/SateLIFE/data/"
 
 
