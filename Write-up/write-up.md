@@ -1,6 +1,10 @@
 # Write-up
 
-## SateLIFE - Beth Bailey, Jo Denby, Cooper Nederhood, Laurence Warner
+## SateLIFE
+
+### Contributors: Cooper Nederhood, Beth Bailey, Laurence Warner, Jo Denby
+
+##### Primary code contribution by: Beth Bailey, Jo Denby, Cooper Nederhood
 
 ### Description of data
 
