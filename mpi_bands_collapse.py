@@ -1,6 +1,5 @@
-# To run this on google could servers, you will have to add the below commands.
-# sudo pip install scikit-image
-# sudo pip3 install scikit-image
+# AUTHOR: Bethany Bailey
+# All code original.
 
 from mpi4py import MPI
 import numpy as np

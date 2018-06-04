@@ -1,3 +1,5 @@
+# AUTHOR: Bethany Bailey
+# All code original.
 
 from mpi4py import MPI
 import numpy as np
