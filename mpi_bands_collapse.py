@@ -8,20 +8,25 @@ import skimage.external.tifffile as tiff
 import util
 import pandas as pd
 
+'''
+This code finds the mean, max, min, and std for each band/year combination in
+the dataset. It then stores the data in pandas dataframes and saves it to csv.
+'''
+
 comm = MPI.COMM_WORLD
 rank, size = comm.Get_rank(), comm.Get_size()
 
 # Create list of years to iterate over.
 years = [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, \
     2012]
-mean_df = pd.DataFrame(index=years, columns=["night_lights", "lst", "ndvi", "landsat0", \
-    "landsat1", "landsat2"])
-min_df = pd.DataFrame(index=years, columns=["night_lights", "lst", "ndvi", "landsat0", \
-    "landsat1", "landsat2"])
-max_df = pd.DataFrame(index=years, columns=["night_lights", "lst", "ndvi", "landsat0", \
-    "landsat1", "landsat2"])
-std_df = pd.DataFrame(index=years, columns=["night_lights", "lst", "ndvi", "landsat0", \
-    "landsat1", "landsat2"])
+mean_df = pd.DataFrame(index=years, columns=["night_lights", "lst", "ndvi", \
+    "landsat0", "landsat1", "landsat2"])
+min_df = pd.DataFrame(index=years, columns=["night_lights", "lst", "ndvi", \
+    "landsat0", "landsat1", "landsat2"])
+max_df = pd.DataFrame(index=years, columns=["night_lights", "lst", "ndvi", \
+    "landsat0", "landsat1", "landsat2"])
+std_df = pd.DataFrame(index=years, columns=["night_lights", "lst", "ndvi", \
+    "landsat0", "landsat1", "landsat2"])
  
 # For each year, use MPI to find summary statistics.
 for year in years:
