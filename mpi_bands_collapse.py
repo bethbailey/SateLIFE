@@ -24,7 +24,6 @@ std_df = pd.DataFrame(index=years, columns=["night_lights", "lst", "ndvi", "land
     "landsat1", "landsat2"])
  
 # For each year, use MPI to find summary statistics.
-# TO DO: ADD MEDIAN.
 for year in years:
     if rank == 0:
         SatData_object = util.create_from_files(years=[year], \
@@ -33,7 +32,7 @@ for year in years:
         data = SatData_object.data
         array_shape = np.shape(data)
         count = array_shape[0] * array_shape[1]
-        bands = array_shape[2]
+        num_bands = array_shape[2]
         chunks = np.array_split(data, size)
     else:
         chunks = None
@@ -52,11 +51,12 @@ for year in years:
 
     if rank == 0:
         # Find mean, max, and min.
-        overall_sums = np.zeros(shape=(bands))
-        cur_max = np.zeros(shape=(bands))
+        overall_sums = np.zeros(shape=(num_bands))
+        cur_max = np.zeros(shape=(num_bands))
         # Find first array of mins to compare future arrays to.
         cur_min = gathered_chunks[0][0][2]
-        print("gathered_chunks")
+        # Go through each chunk and each array in each chunk, and find the sum
+        # of all the arrays for the mean. Also find the max/min.
         for chunk1 in gathered_chunks:
             for data in chunk1:
                 overall_sums += data[0]
@@ -69,6 +69,7 @@ for year in years:
     else:
         assert gathered_chunks is None
 
+    # Broadcast the average in order to calculate standard deviation.
     if rank == 0:
         avg = avg
     else:
@@ -76,6 +77,7 @@ for year in years:
 
     avg = comm.bcast(avg, root=0)
 
+    # find the sum of squared differences for the std.
     results_2 = []
     for x in chunk:
         res = x - avg
@@ -86,8 +88,9 @@ for year in years:
     gathered_chunks2 = comm.gather(results_2, root=0)
 
     if rank == 0:
-        # Find std.
-        sums_diffs_sq = np.zeros(shape=(bands))
+        # Calculate the sum of the sums of squared differences, then take 
+        # square root to find std.
+        sums_diffs_sq = np.zeros(shape=(num_bands))
         for chunk2 in gathered_chunks2:
             for data2 in chunk2:
                 sums_diffs_sq += data2
@@ -102,10 +105,3 @@ max_df.to_csv(path_or_buf="bands_collapse_data/maxs_by_year.csv")
 min_df.to_csv(path_or_buf="bands_collapse_data/mins_by_year.csv")
 std_df.to_csv(path_or_buf="bands_collapse_data/stds_by_year.csv")
 
-
-
-## NOTES FOR DEV
-    # Test data:
-    # data = np.array([[[1,2,3,4],[2,2,3,4],[1,2,3,4]], [[0,2,3,4],[1,2,3,4],[1,2,3,4]]])
-    # data = np.array([[[3,2,3,4],[1,5,3,4],[1,6,10,4]], [[1,2,3,12],[1,2,3,11],[1,2,3,4]]])
-    # data = tiff.imread('year2000.tif')
