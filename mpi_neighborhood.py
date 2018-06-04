@@ -5,12 +5,15 @@ import util
 import pandas as pd
 import pickle
 
-## LOOK AT CORRELATION
-## By neighborhood, by region
+''' This script goes through each year and creates dictionaries of 
+neighborhoods mapped to four statitics for each neighborhood: mean, 
+max, min, std. It used mpi to parallelize computation.
+'''
 
 comm = MPI.COMM_WORLD
 rank, size = comm.Get_rank(), comm.Get_size()
 
+# Iterate over the years in order to make data analysis easier.
 years = [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, \
    2012]
 for year in years:
@@ -19,7 +22,8 @@ for year in years:
             datasets=["night_lights", "lst", "ndvi", "landsat"], \
             include_regions=True)
         data = SatData_object.data
-        boundaries = SatData_object.boundaries 
+        boundaries = SatData_object.boundaries
+        # Split the data and the boundary information into the same chunks.
         data_chunks = np.array_split(data, size)
         boundary_chunks = np.array_split(boundaries, size)
     else:
@@ -29,28 +33,36 @@ for year in years:
     data_chunk = comm.scatter(data_chunks, root=0)
     boundary_chunk = comm.scatter(boundary_chunks, root=0)
 
+    # Create a dictionary for each statistic.
     sum_results = {}
     count_results = {}
     max_results = {}
     min_results = {}
+    # For each third-dimensional row in the numpy array, find the neighborhood
+    # key associated with that row and keep track of stat info with each key.
     for x in range(len(data_chunk)):
         for i in range(len(data_chunk[x])):
-            if str(boundary_chunk[x][i]) in sum_results.keys():
-                cur_max = max_results[str(boundary_chunk[x][i])]
-                cur_min = min_results[str(boundary_chunk[x][i])]
-                max_results[str(boundary_chunk[x][i])] = \
-                    np.maximum(cur_max, data_chunk[x][i])
-                min_results[str(boundary_chunk[x][i])] = \
-                    np.minimum(cur_min, data_chunk[x][i])
-                sum_results[str(boundary_chunk[x][i])] += data_chunk[x][i]
-                count_results[str(boundary_chunk[x][i])] += 1
+            neighborhood_key = str(boundary_chunk[x][i])
+            cur_line = data_chunk[x][i]
+            # If the neighborhood is already in the dictionary, do the
+            # necessary operation for each statistic.
+            if neighborhood_key in sum_results.keys():
+                cur_max = max_results[neighborhood_key]
+                cur_min = min_results[neighborhood_key]
+                max_results[neighborhood_key] = \
+                    np.maximum(cur_max, cur_line)
+                min_results[neighborhood_key] = \
+                    np.minimum(cur_min, cur_line)
+                sum_results[neighborhood_key] += cur_line
+                count_results[neighborhood_key] += 1
+            # Otherwise, add it to the dictionary.
             else:
-                value = data_chunk[x][i]
-                max_results[str(boundary_chunk[x][i])] = value
-                min_results[str(boundary_chunk[x][i])] = value
-                sum_results[str(boundary_chunk[x][i])] = value
-                count_results[str(boundary_chunk[x][i])] = 1
+                max_results[neighborhood_key] = cur_line
+                min_results[neighborhood_key] = cur_line
+                sum_results[neighborhood_key] = cur_line
+                count_results[neighborhood_key] = 1
 
+    # Gather all the dictionaries at the root node.
     gathered_sum_chunks = comm.gather(sum_results, root=0)
     gathered_count_chunks = comm.gather(count_results, root=0)
     gathered_max_chunks = comm.gather(max_results, root=0)
@@ -58,6 +70,7 @@ for year in years:
 
     if rank == 0:
         # Find mean.
+        # Find the total sum of all the items in each neighborhood.
         sum_dict = gathered_sum_chunks[0]
         for res in gathered_sum_chunks[1:]:
             for key, value in res.items():
@@ -65,6 +78,7 @@ for year in years:
                     sum_dict[key] += value
                 else:
                     sum_dict[key] = value
+        # Find the total count of all the items in each neighborhood.
         count_dict = gathered_count_chunks[0]
         for count_res in gathered_count_chunks[1:]:
             for count_key, count_value in count_res.items():
@@ -72,6 +86,7 @@ for year in years:
                     count_dict[count_key] += count_value
                 else:
                     count_dict[count_key] = count_value
+        # Do the final division to find the final mean.
         final_mean_dict = {}    
         for final_sum_key, final_sum_value in sum_dict.items():
             final_mean_dict[final_sum_key] = final_sum_value / count_dict[final_sum_key]
@@ -94,11 +109,15 @@ for year in years:
                 else:
                     min_dict[key] = value
 
-        with open('neighborhood_data/means_by_neighborhood{}.cp'.format(year), 'wb') as fp:
+        # Dump the results to pickle files for later plotting and data analysis.
+        with open('neighborhood_data/means_by_neighborhood{}.cp'.format(year),\
+            'wb') as fp:
             pickle.dump(final_mean_dict, fp, protocol=pickle.HIGHEST_PROTOCOL)
-        with open('neighborhood_data/maxs_by_neighborhood{}.cp'.format(year), 'wb') as fp:
+        with open('neighborhood_data/maxs_by_neighborhood{}.cp'.format(year),\
+            'wb') as fp:
             pickle.dump(max_dict, fp, protocol=pickle.HIGHEST_PROTOCOL)
-        with open('neighborhood_data/mins_by_neighborhood{}.cp'.format(year), 'wb') as fp:
+        with open('neighborhood_data/mins_by_neighborhood{}.cp'.format(year),\
+            'wb') as fp:
             pickle.dump(min_dict, fp, protocol=pickle.HIGHEST_PROTOCOL)
 
     else:
@@ -107,12 +126,11 @@ for year in years:
         assert gathered_max_chunks is None
         assert gathered_min_chunks is None
 
-    # Find std.
+    # Broadcast the final means and scatter the chunks again to find std.
     if rank == 0:
         final_mean_dict = final_mean_dict
         data_chunks2 = np.array_split(data, size)
         boundary_chunks2 = np.array_split(boundaries, size)
-
     else:
         final_mean_dict = None
         data_chunks2 = None
@@ -125,13 +143,16 @@ for year in years:
     results_diff = {}
     for x in range(len(data_chunk2)):
         for i in range(len(data_chunk2[x])):
-            if str(boundary_chunk2[x][i]) in results_diff.keys():
-                results_diff[str(boundary_chunk2[x][i])] += \
-                    np.square(data_chunk2[x][i] - means_dict[str(boundary_chunk2[x][i])])
+            neighborhood_key2 = str(boundary_chunk2[x][i])
+            cur_line2 = data_chunk2[x][i]
+            # Find the sum of squared differences by neighborhood and append
+            # to a dictionary of neighborhood differences.
+            if neighborhood_key2 in results_diff.keys():
+                results_diff[neighborhood_key2] += \
+                    np.square(cur_line2 - means_dict[neighborhood_key2])
             else:
-                value = data_chunk2[x][i]
-                results_diff[str(boundary_chunk2[x][i])] = \
-                    np.square(data_chunk2[x][i] - means_dict[str(boundary_chunk2[x][i])])
+                results_diff[neighborhood_key2] = \
+                    np.square(cur_line2 - means_dict[neighborhood_key2])
 
     gathered_std_chunks = comm.gather(results_diff, root=0)
 
@@ -148,17 +169,8 @@ for year in years:
         for final_diff_key, final_diff_value in diffs_dict.items():
             final_std_dict[final_diff_key] = \
                 np.sqrt(final_diff_value / count_dict[final_diff_key])
-
+        # Pickle the data for future analysis.
         with open('neighborhood_data/stds_by_neighborhood{}.cp'.format(year), 'wb') as fp:
             pickle.dump(final_std_dict, fp, protocol=pickle.HIGHEST_PROTOCOL)
     else:
         assert gathered_std_chunks is None
-
-
-### DEV NOTES ####
-# # TEST DATA
-    # boundaries = np.array([[210,210,112], [999,999,112], [900,900,900],\
-    #  [3,7,11], [900,900,900]])
-    # data = np.array([[[1,2,3,4],[5,6,7,8],[9,10,11,12]], \
-    #     [[2,3,4,5],[6,7,8,9],[10,11,12,13]], [[3,4,5,6],[7,8,9,10],[11,12,13,14]], \
-    #     [[3,4,5,6],[7,8,9,10],[11,12,13,14]], [[3,4,5,6],[7,8,9,10],[11,12,13,14]]])
