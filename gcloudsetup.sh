@@ -1,4 +1,12 @@
 #!/bin/bash
+#
+# Script to automate initialization of GCloud VM instances
+# Takes one argument specifying the number of VMs to initialize (e.g., $./gcloudsetup.sh 2)
+# Prompts user for a destination for './data' : 'root' for just earth-1, 'all' for all nodes,
+# 		'none' for no destination
+#
+# REQUIRES GCLOUD SDK
+
 if [[  $# -ne 1 || $1 -le 0 ]]; then
 	echo "Incorrect input: Supply one argument specifying the number of VM instances to initialize"
 else
@@ -59,8 +67,3 @@ fi
 
 # TO DELETE VM INSTANCES
 #gcloud compute instances delete my-instance --zone us-central1-a
-
-## TODOs
-## allow for 'none' sending condition
-## customize node specifications (e.g., memory, CPU, etc.)
-## 

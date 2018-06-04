@@ -1,6 +1,8 @@
 #!/bin/bash
-#FIRST ARG IS FILENAME, SECOND ARG IS NUM OF NODES
-# e.g., ./update.sh mpifile.py 3
+#
+# Script to automate sending files over to GCloud VM instances for dev purposes
+# FIRST ARG IS FILENAME, SECOND ARG IS NUM OF NODES
+#  e.g., ./update.sh mpifile.py 3
 
 if [[  $# -ne 2 || $2 -le 0 ]]; then
 	echo "Incorrect input: Supply the file to transfer and the number of VM instances"
