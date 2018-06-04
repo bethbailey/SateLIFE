@@ -9,10 +9,10 @@ output: pdf_document
 
 ### Major coding contributions by: Beth Bailey, Jo Denby, Cooper Nederhood
 
-## Description of data
+## Description of Dataset
 For our analysis we relied on publicly available satellite imagery obtained and pre-processed through the Google Earth Engine (EE) platform, a satellite imagery and geo-spatial analysis platform from Google.
 
-The data we used for our analysis focused on the Brazzaville/Kinshasha area. It consisted of about 1.6 billion total pixels that covered 11 years of 6 bands. The bands are described in more detail below. Each year/band combination was 4,900 by 5,036 pixels each, which resulted in about 2GB of data. We also had GeoGSON data from OpenStreetMaps. Our data was too large to push to our repository. It is important to note that our code was written with scalability in mind and could easily be applied to larger areas.
+The data we used focused on the Brazzaville and Kinshasha in DRC/Republic of Congo. It consisted of about 1.6 billion total pixels that covered 11 years of 6 bands. The bands are described in more detail below. Each year/band combination was 4,900 by 5,036 pixels each, which resulted in approximately 2GB of data. We also had GeoGSON data from OpenStreetMaps. Our data was too large to push to our repository, but we can provide a USB file if necessary. It is important to note that our code was written with scalability in mind and could easily be applied to larger areas.
 
 ### Raw Data
 Satellite imagery is a rich form of data with different satellites gathering different information, called bands. We utilized the following data types/bands:
@@ -102,7 +102,7 @@ We founds the mean, min, max, and std for entire region and by neighborhood. We 
 
 - Bands Collapse (look at the mpi_bands_collapse.py code for specific implementation). The output for this can be found in bands_collapse_data.
 
-- Neighborhood Analysis (look at the mpi_neighborhood.py code for specific implementation). The output for this can be found in neighborhood_data.
+- Neighborhood Analysis (look at the mpi_neighborhood.py code for specific implementation). The output for this can be found in neighborhood_data. The neighborhood dictionary that maps neighborhood numbers to names is in util.py.
 
 - Geographical Differences Over Time (look at the mpi_geography.py code for specific implementation). The output for this was too large to store on git, so it is stored locally on each machine.
 
@@ -138,9 +138,18 @@ img <- readPNG("./neighborhood_lst.png")
  grid.raster(img)
 ```
 
+Additionally, the variance in the data showed trends between neighborhoods. For example, the two neighborhods with the highest standard deviation in the LST graph below include both marshland and concentrated urban areas, so their variation in temperature is high.
+
+```{r fig.width=4, fig.height=4,echo=FALSE}
+library(png)
+library(grid)
+img <- readPNG("./neighborhood_lst_std.png")
+ grid.raster(img)
+```
+
 ### Cities
 
-Brazzaville's Night Lights increased more over the period, in line with our prediction, as visualized below:
+Brazzaville's nightlights increased more over the period, in line with our prediction, as visualized below. However, the other indices did not have the same general upward trend.:
 
 ```{r fig.width=4, fig.height=4,echo=FALSE}
 library(png)
@@ -154,4 +163,4 @@ Initially, downloading the data from Google Earth Engine was difficult. Our grou
 
 We also frequently tested our code using the google cloud servers, and because we were opening up 4-8 nodes at once, the setup for MPI was slow and tedious. To overcome this, we set up a bash script that would automatically set up the number of nodes proviced. We also created a update script to update any file on which we were working on all the open nodes.
 
-We also faced issues of lack of complexity: because we were working with numpy arrays, finding simple statistics was very quick even without using MPI. To try to make our project more complicated, we did a neighborhood analysis, which involved looping over the data, and k-nearest neighbors and autocorrelation analyses.
+We also faced issues of lack of complexity: because we were working with numpy arrays, finding simple statistics was very quick even without using MPI. To try to make our project more complicated, we did a neighborhood analysis, which involved looping over the data, and k-nearest neighbors and autocorrelation analyses. We also built approaces that could be scaled up to larger datasets.

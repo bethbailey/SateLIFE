@@ -53,7 +53,7 @@ DECODE = {
  'Limete': 124,
 
  'Congo-Brazzaville (outskirts)': 200,
- 'Congo-Brazzaville (city)': 2010,
+ 'Congo-Brazzaville (city)': 210,
 
  'River': 900,
  'River (island)': 999
